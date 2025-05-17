@@ -34,7 +34,7 @@ replay_pid*
 out/
 
 # Local configuration files
-!**/src/**/build/
+!src/**/build/
 .gradle/caches/
 .gradle/daemon/
 .gradle/native/
