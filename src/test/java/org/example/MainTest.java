@@ -4,11 +4,13 @@
 package org.example;
 
 import org.junit.jupiter.api.Test;
+import org.simulation.Main;
+
 import static org.junit.jupiter.api.Assertions.*;
 
-class AppTest {
+class MainTest {
     @Test void appHasAGreeting() {
-        App classUnderTest = new App();
+        Main classUnderTest = new Main();
         assertNotNull(classUnderTest.getGreeting(), "app should have a greeting");
     }
 }
