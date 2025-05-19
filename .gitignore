@@ -22,3 +22,39 @@
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 replay_pid*
+
+# === Gradle ===
+# Ignore Gradle project-specific cache directory
+.gradle/
+!gradle/wrapper/gradle-wrapper.jar
+!gradle/wrapper/gradle-wrapper.properties
+
+# Gradle logs
+**/build/
+out/
+
+# Local configuration files
+!src/**/build/
+.gradle/caches/
+.gradle/daemon/
+.gradle/native/
+.gradle/wrapper/dists/
+!gradle-wrapper.jar
+
+# IntelliJ IDEA
+.idea/
+*.iws
+*.iml
+*.ipr
+
+# VS Code
+.vscode/
+
+# Operation Systems
+.DS_Store
+Thumbs.db
+ehthumbs.db
+*.swp
+*~
+
+.testoutput/
