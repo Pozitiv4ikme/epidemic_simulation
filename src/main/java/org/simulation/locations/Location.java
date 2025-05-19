@@ -1,4 +1,4 @@
-package org.simulation.city.locations;
+package org.simulation.locations;
 
 public class Location {
     private char name;

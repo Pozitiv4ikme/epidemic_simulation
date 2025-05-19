@@ -1,6 +1,6 @@
 package org.simulation.city;
 
-import org.simulation.city.people.Person;
+import org.simulation.people.Person;
 
 import java.util.Map;
 
