@@ -8,9 +8,13 @@ import java.util.List;
 
 public class Simulation {
     private City city;
-    private List<Virus> viruses;
+    private static List<Virus> viruses;
     private SimulationConfig config;
     private List<Epoch> epochs;
+
+    public static void addVirusToExisted(Virus virus) {
+        viruses.add(virus);
+    }
 
     private void initialization() {}
     public void worldSimulation() {}

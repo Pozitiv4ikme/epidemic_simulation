@@ -1,13 +1,47 @@
 package org.simulation.virus;
 
-public class Virus {
-    private int infectionProbability;
+public class  Virus {
+    private double infectionProbability;
     private int mutationStage;
-    private int lethality;
-    private int recoverProbability;
+    private double lethality;
+    private double recoverProbability;
 
-    public Virus mutation(int age) {
-        return new Virus();  // stub
-    } // im młodszy człowiek tym większy szans na mutację
-      // kiedy tworzy się drugi poziom virusa, to on będzie dla wszystkich ten sam
+    public Virus(double infectionProbability, int mutationStage, double lethality, double recoverProbability) {
+        this.infectionProbability = infectionProbability;
+        this.mutationStage = mutationStage;
+        this.lethality = lethality;
+        this.recoverProbability = recoverProbability;
+    }
+
+    public double getInfectionProbability() {
+        return infectionProbability;
+    }
+
+    public int getMutationStage() {
+        return mutationStage;
+    }
+
+    public double getLethality() {
+        return lethality;
+    }
+
+    public double getRecoverProbability() {
+        return recoverProbability;
+    }
+
+    public void setInfectionProbability(double infectionProbability) {
+        this.infectionProbability = infectionProbability;
+    }
+
+    public void setMutationStage(int mutationStage) {
+        this.mutationStage = mutationStage;
+    }
+
+    public void setLethality(double lethality) {
+        this.lethality = lethality;
+    }
+
+    public void setRecoverProbability(double recoverProbability) {
+        this.recoverProbability = recoverProbability;
+    }
 }
