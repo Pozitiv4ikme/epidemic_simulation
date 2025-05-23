@@ -2,6 +2,7 @@ package org.simulation.services;
 
 import org.simulation.Simulation;
 import org.simulation.people.Person;
+import org.simulation.virus.AgeGroupVirusImpact;
 import org.simulation.virus.Virus;
 
 public class VirusMutationService {
@@ -13,43 +14,20 @@ public class VirusMutationService {
 
     public void tryMutateVirus(Person person) {
         int age = person.getAge();
-        double percentMutation = 0.0;
-        double percentLethality = 0.0;
-        double percentInfectionProbability = 0.0;
-        double percentRecoverProbability = 0.0;
+        AgeGroupVirusImpact profile = AgeGroupVirusImpact.getProfileForAge(age);
 
-        if (age <= 24) {
-            percentMutation = 25.0;
-            percentLethality = 0;
-            percentInfectionProbability = 0;
-            percentRecoverProbability = 0;
-        } else if (25 <= age && age <= 44) {
-            percentMutation = 17.5;
-            percentLethality = 0;
-            percentInfectionProbability = 0;
-            percentRecoverProbability = 0;
-        } else if (45 <= age && age <= 64) {
-            percentMutation = 12.0;
-            percentLethality = 0;
-            percentInfectionProbability = 0;
-            percentRecoverProbability = 0;
-        } else {
-            percentMutation = 6.5;
-            percentLethality = 80.0;
-            percentInfectionProbability = 70.0;
-            percentRecoverProbability = -60.0;
-        }
-        if (!probabilityService.happens(percentMutation)) return;
+        if (!probabilityService.happens(profile.getPercentVirusMutation())) return;
         Virus current = person.getInfectedBy();
         Virus mutated = new Virus(
-                adjust(current.getInfectionProbability(), percentInfectionProbability),
+                adjust(current.getInfectionProbability(), profile.getPercentInfectionProbability()),
                 current.getMutationStage() + 1,
-                adjust(current.getLethality(), percentLethality),
-                adjust(current.getRecoverProbability(), percentRecoverProbability)
+                adjust(current.getLethality(), profile.getPercentLethality()),
+                adjust(current.getRecoverProbability(), profile.getPercentRecoveryProbability())
         );
+        
         person.setInfectedBy(mutated);
         Simulation.addVirusToExisted(mutated);
-    }// wirus próbuje mutować każdą epokę; nowy wirus będzie dodawany w List wszystkich wirusów
+    }
     private double adjust(double base, double percentChange) {
         return base + base * percentChange / 100.0;
     }

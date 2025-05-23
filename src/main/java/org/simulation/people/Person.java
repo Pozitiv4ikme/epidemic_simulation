@@ -53,7 +53,7 @@ public class Person {
 
     private void chanceOfDie() {
         boolean dead = DeathService.evaluateDeath(this);
-        // zmiana healtStatus
+
     }
 
 }
