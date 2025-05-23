@@ -1,11 +1,9 @@
 package org.simulation.people;
 
-import org.simulation.Simulation;
 import org.simulation.services.DeathService;
 import org.simulation.services.InfectionService;
 import org.simulation.services.RecoveryService;
 import org.simulation.virus.Virus;
-import org.simulation.services.VirusMutationService;
 
 public class Person {
     private int age;
@@ -51,9 +49,9 @@ public class Person {
         // zmiana healtStatus
     }
 
-    private void chanceOfDie() {
-        boolean dead = DeathService.evaluateDeath(this);
-
+    private void chanceOfDie(DeathService deathService) {
+        if(deathService.evaluateDeath(this))
+            setHealthStatus(HealthStatus.DEAD);
     }
 
 }

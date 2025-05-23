@@ -1,6 +1,6 @@
 package org.simulation.people;
 
-public enum AgeGroupMortalityAndRecovery {
+public enum AgeGroupImpact {
     YOUNG(6, 24, 0.1, 90.0, 12.0),
     ADULT(25, 44, 0.2, 80.0, 16.0),
     MIDDLE_AGED(45, 64, 0.5, 60.0, 25.0),
@@ -12,10 +12,10 @@ public enum AgeGroupMortalityAndRecovery {
     private final double baseRecoveryChancePercent;
     private final double baseInfectionChancePercent;
 
-    AgeGroupMortalityAndRecovery(int minAge, int maxAge,
-                                 double baseInfectionChancePercent,
-                                 double baseMortalityChancePercent,
-                                 double baseRecoveryChancePercent) {
+    AgeGroupImpact(int minAge, int maxAge,
+                   double baseInfectionChancePercent,
+                   double baseMortalityChancePercent,
+                   double baseRecoveryChancePercent) {
         this.minAge = minAge;
         this.maxAge = maxAge;
         this.baseMortalityChancePercent = baseMortalityChancePercent;
@@ -29,8 +29,8 @@ public enum AgeGroupMortalityAndRecovery {
     public double getBaseRecoveryChancePercent() { return baseRecoveryChancePercent; }
     public double getBaseInfectionChancePercent() { return baseInfectionChancePercent; }
 
-    public static AgeGroupMortalityAndRecovery getProfileForAge(int age) {
-        for (AgeGroupMortalityAndRecovery profile : values()) {
+    public static AgeGroupImpact getProfileForAge(int age) {
+        for (AgeGroupImpact profile : values()) {
             if (age >= profile.getMinAge() && age <= profile.getMaxAge()) {
                 return profile;
             }
