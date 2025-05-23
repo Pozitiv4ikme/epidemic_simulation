@@ -56,7 +56,4 @@ public class Person {
         // zmiana healtStatus
     }
 
-    public void maybeMutate() {
-        VirusMutationService.tryMutateVirus(this);
-    }
 }
