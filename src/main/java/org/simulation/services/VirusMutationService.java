@@ -13,8 +13,7 @@ public class VirusMutationService {
     }
 
     public void tryMutateVirus(Person person) {
-        int age = person.getAge();
-        AgeGroupVirusImpact profile = AgeGroupVirusImpact.getProfileForAge(age);
+        AgeGroupVirusImpact profile = AgeGroupVirusImpact.getProfileForAge(person.getAge());
 
         if (!probabilityService.happens(profile.getPercentVirusMutation())) return;
         Virus current = person.getInfectedBy();

@@ -1,4 +1,4 @@
-package org.simulation.city.locations;
+package org.simulation.locations;
 
 public enum LocationHealthImpact {
     MEDICAL_CENTRE(LocationType.MEDICAL_CENTRE, 10.0, 30.0),

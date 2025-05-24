@@ -1,4 +1,4 @@
-package org.simulation.city.locations;
+package org.simulation.locations;
 
 public enum LocationType {
     MEDICAL_CENTRE('M', "Medical centre", true),

@@ -3,7 +3,6 @@ package org.simulation.services;
 import org.simulation.people.AgeGroupImpact;
 import org.simulation.people.HealthStatus;
 import org.simulation.people.Person;
-import org.simulation.virus.AgeGroupVirusImpact;
 
 public class DeathService {
     private final ProbabilityService probabilityService;
@@ -12,15 +11,13 @@ public class DeathService {
         this.probabilityService = probabilityService;
     }
 
-    public boolean evaluateDeath(Person person) {
-        int age = person.getAge();
-        AgeGroupImpact personProfile = AgeGroupImpact.getProfileForAge(age);
-        AgeGroupVirusImpact virusProfile = AgeGroupVirusImpact.getProfileForAge(age);
+    public void evaluateDeath(Person person) {
+        AgeGroupImpact personProfile = AgeGroupImpact.getProfileForAge(person.getAge());
         if(person.getHealthStatus() == HealthStatus.HEALTHY) {
-            if (!probabilityService.happens(personProfile.getBaseMortalityChancePercent())) return false;
+            if (!probabilityService.happens(personProfile.getBaseMortalityChancePercent())) return;
         } else {
-            if (!probabilityService.happens(personProfile.getBaseMortalityChancePercent() + virusProfile.getPercentLethality())) return false;
+            if (!probabilityService.happens(personProfile.getBaseMortalityChancePercent() + person.getInfectedBy().getLethality())) return;
         }
-        return true;
+        person.setHealthStatus(HealthStatus.DEAD);
     }
 }

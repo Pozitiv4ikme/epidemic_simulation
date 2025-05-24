@@ -1,7 +1,5 @@
 package org.simulation.people;
 
-import org.simulation.services.DeathService;
-import org.simulation.services.InfectionService;
 import org.simulation.services.RecoveryService;
 import org.simulation.virus.Virus;
 
@@ -39,19 +37,9 @@ public class Person {
         this.position = position;
     }
 
-    public void checkInfection() {
-        boolean infected = InfectionService.evaluateInfection(this);
-        // zmiana healtStatus
-    }
-
     private void chanceOfRecover() {
         boolean recovered = RecoveryService.evaluateRecovery(this);
         // zmiana healtStatus
-    }
-
-    private void chanceOfDie(DeathService deathService) {
-        if(deathService.evaluateDeath(this))
-            setHealthStatus(HealthStatus.DEAD);
     }
 
 }
