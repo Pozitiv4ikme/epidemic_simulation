@@ -1,6 +1,5 @@
 package org.simulation.people;
 
-import org.simulation.services.RecoveryService;
 import org.simulation.virus.Virus;
 
 public class Person {
@@ -36,10 +35,4 @@ public class Person {
     public void move(Position position) {
         this.position = position;
     }
-
-    private void chanceOfRecover() {
-        boolean recovered = RecoveryService.evaluateRecovery(this);
-        // zmiana healtStatus
-    }
-
 }
