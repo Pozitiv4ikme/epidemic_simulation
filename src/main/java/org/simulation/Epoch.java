@@ -1,9 +1,4 @@
 package org.simulation;
 
-public class Epoch {
-    private int dayNumber;
-    private int newInfected;
-    private int totalInfected;
-    private int newDeaths;
-    private int totalDeaths;
+public record Epoch(int dayNumber, int newInfected, int totalInfected, int newDeaths, int totalDeaths) {
 }
