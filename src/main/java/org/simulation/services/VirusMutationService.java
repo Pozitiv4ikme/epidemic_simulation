@@ -1,9 +1,10 @@
 package org.simulation.services;
 
-import org.simulation.Simulation;
 import org.simulation.people.Person;
 import org.simulation.virus.AgeGroupVirusImpact;
 import org.simulation.virus.Virus;
+
+import java.util.Optional;
 
 public class VirusMutationService {
     private final ProbabilityService probabilityService;
@@ -12,11 +13,11 @@ public class VirusMutationService {
         this.probabilityService = probabilityService;
     }
 
-    public void tryMutateVirus(Person person) {
+    public Optional<Virus> tryMutateVirus(Person person) {
         AgeGroupVirusImpact profile = AgeGroupVirusImpact.getProfileForAge(person.getAge());
 
-        if (!probabilityService.happens(profile.getPercentVirusMutation())) return;
-        Virus current = person.getInfectedBy();
+        Virus current = person.getInfectedBy().get();
+        if (!probabilityService.happens(profile.getPercentVirusMutation())) return Optional.of(current);
         Virus mutated = new Virus(
                 adjust(current.getInfectionProbability(), profile.getPercentInfectionProbability()),
                 current.getMutationStage() + 1,
@@ -24,8 +25,8 @@ public class VirusMutationService {
                 adjust(current.getRecoverProbability(), profile.getPercentRecoveryProbability())
         );
         
-        person.setInfectedBy(mutated);
-        Simulation.addVirusToExisted(mutated);
+        person.setInfectedBy(Optional.of(mutated));
+        return Optional.of(mutated);
     }
     private double adjust(double base, double percentChange) {
         return base + base * percentChange / 100.0;

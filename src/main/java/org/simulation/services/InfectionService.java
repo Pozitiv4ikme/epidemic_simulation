@@ -16,7 +16,9 @@ public class InfectionService {
         AgeGroupImpact personProfile = AgeGroupImpact.getProfileForAge(person.getAge());
         LocationHealthImpact locationImpact = LocationHealthImpact.getImpactForLocationType(locationType);
 
-        if (!probabilityService.happens(personProfile.getBaseInfectionChancePercent() + infectedPerson.getInfectedBy().getInfectionProbability() + locationImpact.getPercentInfectionProbability()))
+        if (!probabilityService.happens(personProfile.getBaseInfectionChancePercent()
+                + infectedPerson.getInfectedBy().get().getInfectionProbability()
+                + locationImpact.getPercentInfectionProbability()))
             return;
         person.setHealthStatus(HealthStatus.INFECTED);
         person.setInfectedBy(infectedPerson.getInfectedBy());

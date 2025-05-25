@@ -16,7 +16,8 @@ public class DeathService {
         if(person.getHealthStatus() == HealthStatus.HEALTHY) {
             if (!probabilityService.happens(personProfile.getBaseMortalityChancePercent())) return;
         } else {
-            if (!probabilityService.happens(personProfile.getBaseMortalityChancePercent() + person.getInfectedBy().getLethality())) return;
+            if (!probabilityService.happens(personProfile.getBaseMortalityChancePercent()
+                    + person.getInfectedBy().get().getLethality())) return;
         }
         person.setHealthStatus(HealthStatus.DEAD);
     }

@@ -18,7 +18,8 @@ public class RecoveryService {
         LocationHealthImpact locationHealthImpact = LocationHealthImpact.getImpactForLocationType(locationType);
 
         if(probabilityService.happens(personProfile.getBaseRecoveryChancePercent()
-                + person.getInfectedBy().getRecoverProbability() + locationHealthImpact.getPercentRecoveryProbability())){
+                + person.getInfectedBy().get().getRecoverProbability()
+                + locationHealthImpact.getPercentRecoveryProbability())){
             person.setHealthStatus(HealthStatus.HEALTHY);
             person.setInfectedBy(null);
         }

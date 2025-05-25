@@ -2,17 +2,33 @@ package org.simulation.people;
 
 import org.simulation.virus.Virus;
 
+import java.util.Optional;
+
 public class Person {
     private int age;
     private HealthStatus healthStatus;
     private Position position;
-    private Virus infectedBy;
+    private Optional<Virus> infectedBy;
+
+    public Person(int age, HealthStatus healthStatus, Position position) {
+        this.age = age;
+        this.healthStatus = healthStatus;
+        this.position = position;
+        this.infectedBy = Optional.empty();
+    }
+
+    public Person(int age, HealthStatus healthStatus, Position position, Virus infectedBy) {
+        this.age = age;
+        this.healthStatus = healthStatus;
+        this.position = position;
+        this.infectedBy = Optional.of(infectedBy);
+    }
 
     public void setHealthStatus(HealthStatus healthStatus) {
         this.healthStatus = healthStatus;
     }
 
-    public void setInfectedBy(Virus infectedBy) {
+    public void setInfectedBy(Optional<Virus> infectedBy) {
         this.infectedBy = infectedBy;
     }
 
@@ -28,7 +44,7 @@ public class Person {
         return position;
     }
 
-    public Virus getInfectedBy() {
+    public  Optional<Virus>  getInfectedBy() {
         return infectedBy;
     }
 
