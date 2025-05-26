@@ -1,17 +1,28 @@
 package org.simulation.city;
 
+import org.simulation.config.CityConfig;
+import org.simulation.config.LocationConfigData;
+import org.simulation.locations.LocationType;
 import org.simulation.people.Person;
 
 import java.util.Map;
 
 public class City {
-    private int width;
-    private int height;
-    private int population;
+    private final int width;
+    private final int height;
+    private final int population;
     private Map<String, Person> people;
-    private int infectedPercentage;
-    private Map<String, Integer> locationsAmount;
+    private final int infectedPercentage;
+    private final Map<LocationType, LocationConfigData> locationsData;
     private char[][] cityMap;
+
+    public City(CityConfig cityConfig) {
+        this.width = cityConfig.width();
+        this.height = cityConfig.height();
+        this.population = cityConfig.population();
+        this.infectedPercentage = cityConfig.infectedPercentage();
+        this.locationsData = cityConfig.locationsData();
+    }
 
     private void generateCityMap() {}
     private void generatePeople() {}

@@ -8,17 +8,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Simulation {
-    private City city;
-    private List<Virus> viruses;
-    private SimulationConfig config;
-    private List<Epoch> epochs;
+    private final City city;
+    private final List<Virus> viruses;
+    private final SimulationConfig config;
+    private final List<Epoch> epochs;
 
     public Simulation(SimulationConfig config) {
-//        this.city = new City(config.width());
+        this.config = config;
         this.epochs = new ArrayList<>();
+        this.city = new City(config.cityConfig());
 
-        Virus initialVirus = new Virus(config.initialInfectionProbability(), 1,
-                config.initialVirusLethality(), config.initialRecoveryProbability());
+        Virus initialVirus = new Virus(config.initialVirusConfig());
         this.viruses = new ArrayList<>();
         this.viruses.add(initialVirus);
     }

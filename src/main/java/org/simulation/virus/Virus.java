@@ -1,10 +1,19 @@
 package org.simulation.virus;
 
+import org.simulation.config.VirusConfig;
+
 public class  Virus {
     private double infectionProbability;
     private int mutationStage;
     private double lethality;
     private double recoverProbability;
+
+    public Virus(VirusConfig virusConfig) {
+        this.infectionProbability = infectionProbability;
+        this.mutationStage = 1;
+        this.lethality = lethality;
+        this.recoverProbability = recoverProbability;
+    }
 
     public Virus(double infectionProbability, int mutationStage, double lethality, double recoverProbability) {
         this.infectionProbability = infectionProbability;
