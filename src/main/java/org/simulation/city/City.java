@@ -14,7 +14,7 @@ public class City {
     private Map<String, Person> people;
     private final int infectedPercentage;
     private final Map<LocationType, LocationConfigData> locationsData;
-    private char[][] cityMap;
+    private CityCell[][] cityMap;
 
     public City(CityConfig cityConfig) {
         this.width = cityConfig.width();
@@ -24,6 +24,7 @@ public class City {
         this.locationsData = cityConfig.locationsData();
     }
 
-    private void generateCityMap() {}
-    private void generatePeople() {}
+    private void generateCityMap() {
+        this.cityMap = new CityCell[width][height];
+    }
 }
