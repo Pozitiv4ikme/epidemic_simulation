@@ -6,17 +6,35 @@ import org.simulation.people.Position;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class MovementService {
+
+    private final Random random = new Random();
+
     private List<Position> getAvailableDirections(Person person, City city) {
-        List<Position> moves = new ArrayList<>();
-        // patrzenie w jaką storonę możemy iść
-        return moves;
+        Position currentPos = person.getPosition();
+        List<Position> neighbours = currentPos.getNeighbours();
+        List<Position> validPositions = new ArrayList<>();
+
+        for (Position pos : neighbours) {
+            if (pos.isInBounds(city.getHeight(), city.getWidth())) {
+                validPositions.add(pos);
+            }
+        }
+        return validPositions;
     }
 
     public void moving(Person person, City city, int numberOfMoves) {
-        List<Position> availableDirections = getAvailableDirections(person, city);
-        person.move(availableDirections.get(0)); // stub
-        // realizacja wszytkich kroków
+        for (int i = 0; i < numberOfMoves; i++) {
+            Position currentPos = person.getPosition();
+            List<Position> availableDirections = getAvailableDirections(person, city);
+            Position newPos = availableDirections.get(random.nextInt(availableDirections.size()));
+            if (newPos != currentPos) {
+                city.getCityMap()[currentPos.getX()][currentPos.getY()].getPeople().remove(person);
+                city.getCityMap()[newPos.getX()][newPos.getY()].getPeople().add(person);
+                person.move(newPos);
+            }
+        }
     }
 }
