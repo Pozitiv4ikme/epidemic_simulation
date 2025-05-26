@@ -1,10 +1,10 @@
 package org.simulation.people;
 
 public enum AgeGroupImpact {
-    YOUNG(6, 24, 0.1, 90.0, 12.0),
-    ADULT(25, 44, 0.2, 80.0, 16.0),
-    MIDDLE_AGED(45, 64, 0.5, 60.0, 25.0),
-    SENIOR(65, 100, 1.5, 40.0, 30.0);
+    YOUNG(6, 24, 0.1, 5.0, 12.0),
+    ADULT(25, 44, 5, 10.0, 16.0),
+    MIDDLE_AGED(45, 64, 20, 30.0, 25.0),
+    SENIOR(65, 100, 1.5, 60.0, 30.0);
 
     private final int minAge;
     private final int maxAge;

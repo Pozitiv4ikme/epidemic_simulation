@@ -4,7 +4,7 @@ public enum AgeGroupVirusImpact {
     CHILD(6, 24, 25.0, 0.0, 0.0, 0.0),
     ADULT(25, 44, 17.5, 0.0, 0.0, 0.0),
     MIDDLE_AGED(45, 64, 12.0, 0.0, 0.0, 0.0),
-    SENIOR(65, 100, 6.5, 80.0, 70.0, -60.0);
+    SENIOR(65, 100, 50, 80.0, 70.0, -60.0);
 
     private final int minAge;
     private final int maxAge;

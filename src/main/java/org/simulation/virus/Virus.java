@@ -9,10 +9,10 @@ public class  Virus {
     private double recoverProbability;
 
     public Virus(VirusConfig virusConfig) {
-        this.infectionProbability = infectionProbability;
+        this.infectionProbability = virusConfig.initialInfectionProbability();
         this.mutationStage = 1;
-        this.lethality = lethality;
-        this.recoverProbability = recoverProbability;
+        this.lethality = virusConfig.initialLethality();
+        this.recoverProbability = virusConfig.initialRecoveryProbability();
     }
 
     public Virus(double infectionProbability, int mutationStage, double lethality, double recoverProbability) {
@@ -52,5 +52,15 @@ public class  Virus {
 
     public void setRecoverProbability(double recoverProbability) {
         this.recoverProbability = recoverProbability;
+    }
+
+    @Override
+    public String toString() {
+        return "Virus{" +
+                "infectionProbability=" + infectionProbability +
+                ", mutationStage=" + mutationStage +
+                ", lethality=" + lethality +
+                ", recoverProbability=" + recoverProbability +
+                '}';
     }
 }

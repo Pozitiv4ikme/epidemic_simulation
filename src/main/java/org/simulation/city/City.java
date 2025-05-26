@@ -27,4 +27,17 @@ public class City {
     private void generateCityMap() {
         this.cityMap = new CityCell[width][height];
     }
+
+    private void generatePeople() {}
+
+    @Override
+    public String toString() {
+        return "City{" +
+                "width=" + width +
+                ", height=" + height +
+                ", population=" + population +
+                ", infectedPercentage=" + infectedPercentage +
+                ", locationsData=" + locationsData +
+                '}';
+    }
 }
