@@ -1,0 +1,33 @@
+{
+  "totalNumberOfEpochs": 2,
+  "numberOfMovesPerEpoch": 5,
+  "cityConfig": {
+    "width": 5,
+    "height": 5,
+    "population": 10,
+    "infectedPercentage": 3,
+    "locationsData": {
+      "MEDICAL_CENTRE": {
+        "areaPercentage": 10,
+        "amount": 1
+      },
+      "HOUSE": {
+        "areaPercentage": 30,
+        "amount": 3
+      },
+      "WORKPLACE": {
+        "areaPercentage": 10,
+        "amount": 2
+      },
+      "SCHOOL": {
+        "areaPercentage": 10,
+        "amount": 1
+      }
+    }
+  },
+  "initialVirusConfig": {
+    "initialInfectionProbability": 15.5,
+    "initialLethality": 5.0,
+    "initialRecoveryProbability": 25.3
+  }
+}

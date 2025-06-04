@@ -23,8 +23,22 @@ public class City {
         this.infectedPercentage = cityConfig.infectedPercentage();
         this.locationsData = cityConfig.locationsData();
     }
+
     private void generateCityMap() {
         this.cityMap = new CityCell[width][height];
+    }
+
+    private void generatePeople() {}
+
+    @Override
+    public String toString() {
+        return "City{" +
+                "width=" + width +
+                ", height=" + height +
+                ", population=" + population +
+                ", infectedPercentage=" + infectedPercentage +
+                ", locationsData=" + locationsData +
+                '}';
     }
 
     public int getWidth() {

@@ -4,7 +4,7 @@ import org.simulation.virus.Virus;
 
 import java.util.Optional;
 
-public class Person {
+public class Person implements Movable {
     private int age;
     private HealthStatus healthStatus;
     private Position position;
