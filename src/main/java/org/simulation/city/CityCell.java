@@ -29,4 +29,9 @@ public class CityCell {
     public void removePerson(Person person) {
         people.remove(person);
     }
+
+    @Override
+    public String toString() {
+        return location.toString();
+    }
 }

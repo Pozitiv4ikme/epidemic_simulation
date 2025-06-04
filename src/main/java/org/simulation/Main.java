@@ -1,5 +1,6 @@
 package org.simulation;
 
+import org.simulation.city.CityCell;
 import org.simulation.locations.Location;
 import org.simulation.locations.LocationFactory;
 import org.simulation.locations.LocationType;
@@ -32,7 +33,18 @@ public class Main {
 
         // config file reading testing
         Simulation simulation = new Simulation(config);
-        System.out.println(simulation.getCity().toString());
+        CityMapService.fillCityMap(simulation.getCity());
+
+        for (CityCell[] cityCellRow : simulation.getCity().getCityMap()) {
+            for (CityCell cell : cityCellRow) {
+                if(cell == null) {
+                    System.out.print(0 + " ");
+                    continue;
+                }
+                System.out.print(cell + " ");
+            }
+            System.out.println();
+        }
 
         ProbabilityService probabilityService = new ProbabilityService();
 

@@ -11,13 +11,13 @@ public class LocationFactory {
     public static List<Location> generateLocations(
             int width,
             int height,
-            Map<LocationType, LocationConfigData> config
+            Map<LocationType, LocationConfigData> cityInitialData
     ) {
         List<Location> allLocations = new ArrayList<>();
         int totalArea = width * height;
         Map<LocationType, Integer> idCounters = new HashMap<>();
 
-        for (Map.Entry<LocationType, LocationConfigData> entry : config.entrySet()) {
+        for (Map.Entry<LocationType, LocationConfigData> entry : cityInitialData.entrySet()) {
             LocationType type = entry.getKey();
             LocationConfigData data = entry.getValue();
             int amount = data.amount();

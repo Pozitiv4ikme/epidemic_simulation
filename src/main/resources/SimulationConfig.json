@@ -2,26 +2,26 @@
   "totalNumberOfEpochs": 2,
   "numberOfMovesPerEpoch": 5,
   "cityConfig": {
-    "width": 5,
-    "height": 5,
+    "width": 10,
+    "height": 10,
     "population": 10,
     "infectedPercentage": 3,
     "locationsData": {
       "MEDICAL_CENTRE": {
         "areaPercentage": 10,
-        "amount": 1
+        "amount": 2
       },
       "HOUSE": {
-        "areaPercentage": 30,
-        "amount": 3
+        "areaPercentage": 25,
+        "amount": 5
       },
       "WORKPLACE": {
         "areaPercentage": 10,
-        "amount": 2
+        "amount": 3
       },
       "SCHOOL": {
-        "areaPercentage": 10,
-        "amount": 1
+        "areaPercentage": 5,
+        "amount": 2
       }
     }
   },

@@ -19,26 +19,10 @@ public class City {
     public City(CityConfig cityConfig) {
         this.width = cityConfig.width();
         this.height = cityConfig.height();
+        this.cityMap = new CityCell[width][height];
         this.population = cityConfig.population();
         this.infectedPercentage = cityConfig.infectedPercentage();
         this.locationsData = cityConfig.locationsData();
-    }
-
-    private void generateCityMap() {
-        this.cityMap = new CityCell[width][height];
-    }
-
-    private void generatePeople() {}
-
-    @Override
-    public String toString() {
-        return "City{" +
-                "width=" + width +
-                ", height=" + height +
-                ", population=" + population +
-                ", infectedPercentage=" + infectedPercentage +
-                ", locationsData=" + locationsData +
-                '}';
     }
 
     public int getWidth() {
@@ -67,5 +51,16 @@ public class City {
 
     public CityCell[][] getCityMap() {
         return cityMap;
+    }
+
+    @Override
+    public String toString() {
+        return "City{" +
+                "width=" + width +
+                ", height=" + height +
+                ", population=" + population +
+                ", infectedPercentage=" + infectedPercentage +
+                ", locationsData=" + locationsData +
+                '}';
     }
 }

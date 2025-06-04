@@ -38,12 +38,7 @@ public class Location {
 
     @Override
     public String toString() {
-        return "Location{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", type=" + type +
-                ", buildingArea=" + buildingArea +
-                '}';
+        return getMapDisplaySymbol();
     }
 
     public int getBuildingArea() {
