@@ -40,4 +40,32 @@ public class City {
                 ", locationsData=" + locationsData +
                 '}';
     }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public int getPopulation() {
+        return population;
+    }
+
+    public Map<String, Person> getPeople() {
+        return people;
+    }
+
+    public int getInfectedPercentage() {
+        return infectedPercentage;
+    }
+
+    public Map<LocationType, LocationConfigData> getLocationsData() {
+        return locationsData;
+    }
+
+    public CityCell[][] getCityMap() {
+        return cityMap;
+    }
 }

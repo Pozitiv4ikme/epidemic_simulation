@@ -23,4 +23,30 @@ public class Location {
         }
         return LocationHealthImpact.getImpactForLocationType(this.type);
     }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public LocationType getType() {
+        return type;
+    }
+
+    @Override
+    public String toString() {
+        return "Location{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", type=" + type +
+                ", buildingArea=" + buildingArea +
+                '}';
+    }
+
+    public int getBuildingArea() {
+        return buildingArea;
+    }
 }

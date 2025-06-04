@@ -1,6 +1,6 @@
 package org.simulation.locations;
 
-public enum LocationType {
+public enum  LocationType {
     MEDICAL_CENTRE('M', "Medical centre", true),
     HOUSE('H', "House", true),
     WORKPLACE('W', "Workplace", true),
