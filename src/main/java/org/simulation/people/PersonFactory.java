@@ -5,6 +5,7 @@ import org.simulation.city.CityCell;
 import org.simulation.virus.Virus;
 
 import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class PersonFactory {
     private final Random random = new Random();
@@ -26,7 +27,7 @@ public class PersonFactory {
             int y = random.nextInt(height);
             Position position = new Position(x, y);
 
-            int age = 1 + random.nextInt(100);
+            int age = ThreadLocalRandom.current().nextInt(6, 101);
 
             HealthStatus status;
             Optional<Virus> infectedBy = Optional.empty();
