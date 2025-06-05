@@ -16,7 +16,7 @@ public class PersonFactory {
 
         int width = city.getWidth();
         int height = city.getHeight();
-        CityCell[][] cityMap = city.getCityMap();
+//        CityCell[][] cityMap = city.getCityMap();
 
         List<Person> people = new ArrayList<>();
 
@@ -44,8 +44,9 @@ public class PersonFactory {
                     : new Person(age, status, position);
 
             people.add(person);
-            cityMap[x][y].addPerson(person);
+            city.getCityMap()[x][y].getPeople().add(person);
         }
+
         return people;
     }
 }

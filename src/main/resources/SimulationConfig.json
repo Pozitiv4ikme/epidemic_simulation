@@ -4,8 +4,8 @@
   "cityConfig": {
     "width": 10,
     "height": 10,
-    "population": 10,
-    "infectedPercentage": 3,
+    "population": 20,
+    "infectedPercentage": 10,
     "locationsData": {
       "MEDICAL_CENTRE": {
         "areaPercentage": 10,

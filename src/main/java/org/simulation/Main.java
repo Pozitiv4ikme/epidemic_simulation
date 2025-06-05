@@ -6,6 +6,7 @@ import org.simulation.locations.LocationFactory;
 import org.simulation.locations.LocationType;
 import org.simulation.people.HealthStatus;
 import org.simulation.people.Person;
+import org.simulation.people.PersonFactory;
 import org.simulation.people.Position;
 import org.simulation.services.*;
 import org.simulation.virus.Virus;
@@ -42,6 +43,20 @@ public class Main {
                     continue;
                 }
                 System.out.print(cell + " ");
+            }
+            System.out.println();
+        }
+
+        PersonFactory personFactory = new PersonFactory();
+        List<Person> people = personFactory.generatePeople(simulation.getCity(), simulation.getViruses());
+
+        for (CityCell[] cityCellRow : simulation.getCity().getCityMap()) {
+            for (CityCell cell : cityCellRow) {
+                if(cell.getPeople().isEmpty()) {
+                    System.out.print(0 + " ");
+                    continue;
+                }
+                System.out.print(cell.getPeople().size() + " ");
             }
             System.out.println();
         }

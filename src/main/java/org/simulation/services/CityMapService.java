@@ -23,6 +23,18 @@ public class CityMapService {
                 .filter(loc -> loc.getType() != LocationType.MEDICAL_CENTRE)
                 .forEach(loc -> placeLocationWithConstraints(city, loc, false));
 
+        // 3. Fill empty cells with ROAD
+        int width = city.getWidth();
+        int height = city.getHeight();
+        for (int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++) {
+                if (city.getCityMap()[x][y] == null) {
+                    Location road = new Location(LocationType.ROAD); // Adjust constructor as needed
+                    city.getCityMap()[x][y] = new CityCell(road);
+                }
+            }
+        }
+
         return city.getCityMap();
     }
 

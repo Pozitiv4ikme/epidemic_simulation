@@ -1,20 +1,33 @@
 package org.simulation.locations;
 
+import java.util.Optional;
+
 public class Location {
-    private int id;
+    private Optional<Integer> id;
     private String name;
     private LocationType type;
     private int buildingArea;
 
     public Location(int id, String name, LocationType type, int buildingArea) {
-        this.id = id;
+        this.id = Optional.of(id);
         this.name = name;
         this.type = type;
         this.buildingArea = buildingArea;
     }
 
+    public Location(LocationType type) {
+        this.id = Optional.empty();
+        this.type = type;
+        this.name = type.getName();
+        this.buildingArea = 0;
+    }
+
     public String getMapDisplaySymbol() {
-        return String.format("%c%d", type.getBaseDisplaySymbol(), id);
+        if(id.isPresent()) {
+            return String.format("%c%d", type.getBaseDisplaySymbol(), id.get());
+        } else {
+            return String.format("%c", type.getBaseDisplaySymbol());
+        }
     }
 
     public LocationHealthImpact getLocationHealthImpact() {
@@ -24,7 +37,7 @@ public class Location {
         return LocationHealthImpact.getImpactForLocationType(this.type);
     }
 
-    public int getId() {
+    public Optional<Integer> getId() {
         return id;
     }
 
