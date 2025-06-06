@@ -1,10 +1,10 @@
 {
-  "totalNumberOfEpochs": 2,
+  "totalNumberOfEpochs": 3,
   "numberOfMovesPerEpoch": 5,
   "cityConfig": {
     "width": 10,
     "height": 10,
-    "population": 20,
+    "population": 75,
     "infectedPercentage": 10,
     "locationsData": {
       "MEDICAL_CENTRE": {
@@ -26,7 +26,7 @@
     }
   },
   "initialVirusConfig": {
-    "initialInfectionProbability": 15.5,
+    "initialInfectionProbability": 80.0,
     "initialLethality": 5.0,
     "initialRecoveryProbability": 25.3
   }

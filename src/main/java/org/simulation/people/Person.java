@@ -51,4 +51,11 @@ public class Person implements Movable {
     public void move(Position position) {
         this.position = position;
     }
+
+    @Override
+    public String toString() {
+        return "Person{" +
+                "age=" + age +
+                '}';
+    }
 }

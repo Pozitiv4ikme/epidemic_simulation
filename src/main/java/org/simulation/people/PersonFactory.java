@@ -1,11 +1,9 @@
 package org.simulation.people;
 
 import org.simulation.city.City;
-import org.simulation.city.CityCell;
 import org.simulation.virus.Virus;
 
 import java.util.*;
-import java.util.concurrent.ThreadLocalRandom;
 
 public class PersonFactory {
     private final Random random = new Random();
@@ -16,7 +14,6 @@ public class PersonFactory {
 
         int width = city.getWidth();
         int height = city.getHeight();
-//        CityCell[][] cityMap = city.getCityMap();
 
         List<Person> people = new ArrayList<>();
 
@@ -27,7 +24,7 @@ public class PersonFactory {
             int y = random.nextInt(height);
             Position position = new Position(x, y);
 
-            int age = ThreadLocalRandom.current().nextInt(6, 101);
+            int age = random.nextInt(95) + 6;
 
             HealthStatus status;
             Optional<Virus> infectedBy = Optional.empty();

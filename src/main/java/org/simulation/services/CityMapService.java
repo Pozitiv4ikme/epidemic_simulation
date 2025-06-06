@@ -5,6 +5,8 @@ import org.simulation.city.CityCell;
 import org.simulation.locations.Location;
 import org.simulation.locations.LocationFactory;
 import org.simulation.locations.LocationType;
+import org.simulation.people.Person;
+import org.simulation.virus.Virus;
 
 import java.util.*;
 
@@ -109,5 +111,22 @@ public class CityMapService {
             }
         }
         return false;
+    }
+
+    public static Optional<Map<Integer, Virus>> allVirusStagesInCityCell(CityCell cell) {
+        List<Person> peopleInCell = cell.getPeople();
+        Map<Integer, Virus> virusStages = new TreeMap<>(Comparator.reverseOrder());
+        if(peopleInCell.size() != 1) {
+            for(Person person: peopleInCell) {
+                person.getInfectedBy().ifPresent(infectedBy -> {
+                    int stage = infectedBy.getMutationStage();
+                    if(!virusStages.containsKey(stage)) {
+                        virusStages.put(stage, infectedBy);
+                    }
+                });
+            }
+            return Optional.of(virusStages);
+        }
+        return Optional.empty();
     }
 }

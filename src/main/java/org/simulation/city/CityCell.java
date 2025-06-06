@@ -14,10 +14,6 @@ public class CityCell {
         this.location = location;
     }
 
-    public CityCell() {
-        this.location = null;
-    }
-
     public Location getLocation() {
         return location;
     }

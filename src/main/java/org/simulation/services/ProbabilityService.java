@@ -12,6 +12,6 @@ public class ProbabilityService {
     public boolean happens(double chancePercent) {
         if (chancePercent <= 0) return false;
         if (chancePercent >= 100) return true;
-        return Math.random() < (chancePercent / 100.0);
+        return Math.random() <= (chancePercent / 100.0);
     }
 }

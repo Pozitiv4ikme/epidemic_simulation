@@ -1,18 +1,10 @@
 package org.simulation;
 
 import org.simulation.city.CityCell;
-import org.simulation.locations.Location;
-import org.simulation.locations.LocationFactory;
-import org.simulation.locations.LocationType;
 import org.simulation.people.HealthStatus;
 import org.simulation.people.Person;
-import org.simulation.people.PersonFactory;
 import org.simulation.people.Position;
 import org.simulation.services.*;
-import org.simulation.virus.Virus;
-
-import java.util.List;
-import java.util.Optional;
 
 import org.simulation.config.ConfigLoader;
 import org.simulation.config.SimulationConfig;
@@ -34,7 +26,6 @@ public class Main {
 
         // config file reading testing
         Simulation simulation = new Simulation(config);
-        CityMapService.fillCityMap(simulation.getCity());
 
         for (CityCell[] cityCellRow : simulation.getCity().getCityMap()) {
             for (CityCell cell : cityCellRow) {
@@ -47,9 +38,6 @@ public class Main {
             System.out.println();
         }
 
-        PersonFactory personFactory = new PersonFactory();
-        List<Person> people = personFactory.generatePeople(simulation.getCity(), simulation.getViruses());
-
         for (CityCell[] cityCellRow : simulation.getCity().getCityMap()) {
             for (CityCell cell : cityCellRow) {
                 if(cell.getPeople().isEmpty()) {
@@ -61,42 +49,17 @@ public class Main {
             System.out.println();
         }
 
-        ProbabilityService probabilityService = new ProbabilityService();
+        simulation.worldSimulation();
 
-        // Testing people mortality
-//        DeathService deathService = new DeathService(probabilityService);
-
-        // Testing people infection
-//        InfectionService infectionService = new InfectionService(probabilityService);
-
-        // Testing people recovery
-//        RecoveryService recoveryService = new RecoveryService(probabilityService);
-
-        // Testing virus mutation
-//        VirusMutationService virusMutationService = new VirusMutationService(probabilityService);
-
-        Person person1 = new Person(64,HealthStatus.HEALTHY, new Position(12,12));
-        Person person2 = new Person(70,HealthStatus.INFECTED, new Position(12,12), simulation.getViruses().getFirst());
-
-//        deathService.evaluateDeath(person1);
-//        deathService.evaluateDeath(person2);
-
-//        infectionService.evaluateInfection(person1,person2, LocationType.MEDICAL_CENTRE);
-
-//        recoveryService.evaluateRecovery(person2,LocationType.MEDICAL_CENTRE);
-
-//        Optional<Virus> mutatedVirus = virusMutationService.tryMutateVirus(person2);
-
-//        System.out.println(person1.getHealthStatus());
-//        System.out.println(person2.getHealthStatus());
-//        System.out.println(person2.getInfectedBy().get());
-
-        // locations generating testing
-//        List<Location> locations = LocationFactory.generateLocations(config.cityConfig().width(),
-//                config.cityConfig().height(), config.cityConfig().locationsData());
-//
-//        for(Location location : locations) {
-//            System.out.println(location);
-//        }
+        for (CityCell[] cityCellRow : simulation.getCity().getCityMap()) {
+            for (CityCell cell : cityCellRow) {
+                if(cell.getPeople().isEmpty()) {
+                    System.out.print(0 + " ");
+                    continue;
+                }
+                System.out.print(cell.getPeople().size() + " ");
+            }
+            System.out.println();
+        }
     }
 }

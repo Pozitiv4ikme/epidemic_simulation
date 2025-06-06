@@ -1,6 +1,7 @@
 package org.simulation.services;
 
 import org.simulation.city.City;
+import org.simulation.people.AgeGroupImpact;
 import org.simulation.people.Person;
 import org.simulation.people.Position;
 
@@ -9,6 +10,11 @@ import java.util.List;
 import java.util.Random;
 
 public class MovementService {
+    private final ProbabilityService probabilityService;
+
+    public MovementService(ProbabilityService probabilityService) {
+        this.probabilityService = probabilityService;
+    }
 
     private final Random random = new Random();
 
@@ -29,8 +35,11 @@ public class MovementService {
         for (int i = 0; i < numberOfMoves; i++) {
             Position currentPos = person.getPosition();
             List<Position> availableDirections = getAvailableDirections(person, city);
-            Position newPos = availableDirections.get(random.nextInt(availableDirections.size()));
-            if (newPos != currentPos) {
+
+            AgeGroupImpact ageGroupImpact = AgeGroupImpact.getProfileForAge(person.getAge());
+
+            if(probabilityService.happens(ageGroupImpact.getBaseMovementChancePercent())) {
+                Position newPos = availableDirections.get(random.nextInt(availableDirections.size()));
                 city.getCityMap()[currentPos.getX()][currentPos.getY()].getPeople().remove(person);
                 city.getCityMap()[newPos.getX()][newPos.getY()].getPeople().add(person);
                 person.move(newPos);

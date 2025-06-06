@@ -39,7 +39,6 @@ public class Position {
 
     public List<Position> getNeighbours() {
         List<Position> neighbours = new ArrayList<>();
-        neighbours.add(this);
         neighbours.add(up());
         neighbours.add(down());
         neighbours.add(left());
