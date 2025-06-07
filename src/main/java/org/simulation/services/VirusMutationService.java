@@ -41,6 +41,11 @@ public class VirusMutationService {
     }
 
     private double adjust(double base, double percentChange) {
-        return base + base * percentChange / 100.0;
+        double difference;
+        if(base > 0)
+            difference = 100.0 - base;
+        else
+            difference = 100.0 + base;
+        return base + difference * percentChange / 100.0;
     }
 }

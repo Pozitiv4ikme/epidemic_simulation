@@ -2,6 +2,7 @@ package org.simulation;
 
 import org.simulation.city.City;
 import org.simulation.city.CityCell;
+import org.simulation.config.CityConfig;
 import org.simulation.config.SimulationConfig;
 import org.simulation.locations.Location;
 import org.simulation.people.HealthStatus;
@@ -63,6 +64,7 @@ public class Simulation {
 
     public void worldSimulation() {
         int currentEpoch = 0;
+        int currentDeath = 0;
 
         while(currentEpoch < this.maxEpochs) {
             Map<HealthStatus, List<Person>> currentCityPeople = city.getPeople();
@@ -81,6 +83,8 @@ public class Simulation {
 
                 deathService.evaluateDeath(person);
                 HealthStatus endEpochStatus = person.getHealthStatus();
+                if (person.getHealthStatus()==HealthStatus.DEAD)
+                    currentDeath += 1;
                 nextEpochPeopleMap.computeIfAbsent(endEpochStatus, k -> new ArrayList<>()).add(person);
             }
 
@@ -166,8 +170,11 @@ public class Simulation {
 
             currentEpoch++;
 
-            for (Person person: nextEpochPeopleMap.get(HealthStatus.DEAD)) {
-                city.getCityMap()[person.getPosition().getX()][person.getPosition().getY()].getPeople().remove(person);
+            List<Person> deadPeople = nextEpochPeopleMap.get(HealthStatus.DEAD);
+            if (deadPeople != null) {
+                for (Person person: nextEpochPeopleMap.get(HealthStatus.DEAD)) {
+                    city.getCityMap()[person.getPosition().getX()][person.getPosition().getY()].getPeople().remove(person);
+                }
             }
             List<Person> allPeople = nextEpochPeopleMap.values().stream()
                     .flatMap(List::stream)
@@ -180,14 +187,16 @@ public class Simulation {
 
             System.out.println("Epoch " + currentEpoch + " completed.");
 
-            List<Person> deadPeople = nextEpochPeopleMap.get(HealthStatus.DEAD);
             if (deadPeople != null) {
                 System.out.println("People dead: " + deadPeople.size());
             } else {
                 System.out.println("People dead: 0");
             }
+            if(currentDeath == getConfig().cityConfig().population())
+                return;
 
-
+            List<Person> infectedPeople = nextEpochPeopleMap.get(HealthStatus.INFECTED);
+            if(infectedPeople == null) return;
         }
     }
 }

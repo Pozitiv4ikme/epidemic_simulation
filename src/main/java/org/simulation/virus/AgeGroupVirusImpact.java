@@ -1,10 +1,10 @@
 package org.simulation.virus;
 
 public enum AgeGroupVirusImpact {
-    CHILD(6, 24, 70, 0.0, 5, 0.0),
-    ADULT(25, 44, 70, 0.0, 15, 0.0),
-    MIDDLE_AGED(45, 64, 80, 0.0, 20, 0.0),
-    SENIOR(65, 100, 80, 80.0, 70.0, -60.0);
+    CHILD(6, 24, 70, 10.0, 30.0, 5.0),
+    ADULT(25, 44, 70, 20.0, 50.0, -15.0),
+    MIDDLE_AGED(45, 64, 80, 30.0, 60.0, -35.0),
+    SENIOR(65, 100, 80, 40.0, 25.0, -40.0);
 
     private final int minAge;
     private final int maxAge;

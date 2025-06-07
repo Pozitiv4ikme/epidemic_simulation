@@ -1,10 +1,10 @@
 {
-  "totalNumberOfEpochs": 50,
+  "totalNumberOfEpochs": 300,
   "numberOfMovesPerEpoch": 5,
   "cityConfig": {
-    "width": 100,
-    "height": 100,
-    "population": 5000,
+    "width": 500,
+    "height": 500,
+    "population": 500000,
     "infectedPercentage": 10,
     "locationsData": {
       "MEDICAL_CENTRE": {
