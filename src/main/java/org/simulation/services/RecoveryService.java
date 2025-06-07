@@ -6,6 +6,8 @@ import org.simulation.people.Person;
 import org.simulation.locations.LocationType;
 import org.simulation.locations.LocationHealthImpact;
 
+import java.util.Optional;
+
 public class RecoveryService {
     private final ProbabilityService probabilityService;
 
@@ -21,7 +23,7 @@ public class RecoveryService {
                 + person.getInfectedBy().get().getRecoverProbability()
                 + locationHealthImpact.getPercentRecoveryProbability())){
             person.setHealthStatus(HealthStatus.HEALTHY);
-            person.setInfectedBy(null);
+            person.setInfectedBy(Optional.empty());
         }
     }
 }

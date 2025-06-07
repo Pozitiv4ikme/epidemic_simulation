@@ -11,6 +11,7 @@ import org.simulation.services.*;
 import org.simulation.virus.Virus;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Simulation {
     private final City city;
@@ -25,6 +26,7 @@ public class Simulation {
     private final DeathService deathService = new DeathService(probabilityService);
     private final InfectionService infectionService = new InfectionService(probabilityService);
     private final VirusMutationService virusMutationService = new VirusMutationService(probabilityService);
+    private final RecoveryService recoveryService = new RecoveryService(probabilityService);
 
     public Simulation(SimulationConfig config) {
         this.config = config;
@@ -85,16 +87,18 @@ public class Simulation {
             nextEpochPeopleMap.forEach(((healthStatus, people) -> {
                 if (healthStatus == HealthStatus.HEALTHY) {
                     people.forEach(person -> {
-                        CityCell currentCell = city.getCityMap()[person.getPosition().getX()][person.getPosition().getY()];
-                        Location currentLocation = currentCell.getLocation();
-                        Optional<Map<Integer, Virus>> virusStages = CityMapService.allVirusStagesInCityCell(currentCell);
-                        if(virusStages.isPresent() && !virusStages.get().isEmpty()) {
-                            int infectedChecked = 0;
-                            while (virusStages.get().size() != infectedChecked) {
-                                virusStages.get().forEach((key, virus) ->
-                                        infectionService.evaluateInfection(person, virus, currentLocation.getType())
-                                );
-                                infectedChecked++;
+                        if(person.getHealthStatus() == HealthStatus.HEALTHY) {
+                            CityCell currentCell = city.getCityMap()[person.getPosition().getX()][person.getPosition().getY()];
+                            Location currentLocation = currentCell.getLocation();
+                            Optional<Map<Integer, Virus>> virusStages = CityMapService.allVirusStagesInCityCell(currentCell);
+                            if(virusStages.isPresent() && !virusStages.get().isEmpty()) {
+                                int infectedChecked = 0;
+                                while (virusStages.get().size() != infectedChecked) {
+                                    virusStages.get().forEach((key, virus) ->
+                                            infectionService.evaluateInfection(person, virus, currentLocation.getType())
+                                    );
+                                    infectedChecked++;
+                                }
                             }
                         }
                     });
@@ -104,16 +108,56 @@ public class Simulation {
             nextEpochPeopleMap.forEach(((healthStatus, people) -> {
                 if (healthStatus == HealthStatus.INFECTED) {
                     people.forEach(person -> {
-                        int currentVirusStage = person.getInfectedBy().get().getMutationStage();
-                        Virus prevoiusVirus = person.getInfectedBy().get();
-                        boolean isVirusExist = viruses.stream()
-                                .anyMatch(virus -> virus.getMutationStage() == currentVirusStage+1);
-                        if(isVirusExist) {
-                            virusMutationService.tryMutateVirus(person, viruses);
-                        } else {
-                            Optional<Virus> newStageVirus = virusMutationService.tryNewMutateVirus(person);
-                            if(!newStageVirus.equals(Optional.of(prevoiusVirus))) {
-                                viruses.add(newStageVirus.get());
+                        if (person.getHealthStatus() == HealthStatus.INFECTED) {
+                            CityCell currentCell = city.getCityMap()[person.getPosition().getX()][person.getPosition().getY()];
+                            Location currentLocation = currentCell.getLocation();
+                            recoveryService.evaluateRecovery(person, currentLocation.getType());
+                        }
+                    });
+                }
+            }));
+
+            if(currentEpoch != 0) {
+                nextEpochPeopleMap.forEach(((healthStatus, people) -> {
+                    if (healthStatus == HealthStatus.INFECTED) {
+                        people.forEach(person -> {
+                            if(person.getHealthStatus() == HealthStatus.INFECTED) {
+                                int currentVirusStage = person.getInfectedBy().get().getMutationStage();
+                                CityCell currentCell = city.getCityMap()[person.getPosition().getX()][person.getPosition().getY()];
+                                Location currentLocation = currentCell.getLocation();
+                                Optional<Map<Integer, Virus>> virusStages = CityMapService.allVirusStagesInCityCell(currentCell);
+                                if(virusStages.isPresent() && !virusStages.get().isEmpty()) {
+                                    int infectedChecked = 0;
+                                    while (virusStages.get().size() != infectedChecked) {
+                                        virusStages.get().forEach((key, virus) -> {
+                                            if(virus.getMutationStage() > currentVirusStage) {
+                                                infectionService.evaluateInfection(person, virus, currentLocation.getType());
+                                            }
+                                        });
+                                        infectedChecked++;
+                                    }
+                                }
+                            }
+                        });
+                    }
+                }));
+            }
+
+            nextEpochPeopleMap.forEach(((healthStatus, people) -> {
+                if (healthStatus == HealthStatus.INFECTED) {
+                    people.forEach(person -> {
+                        if(person.getHealthStatus() == HealthStatus.INFECTED) {
+                            int currentVirusStage = person.getInfectedBy().get().getMutationStage();
+                            Virus prevoiusVirus = person.getInfectedBy().get();
+                            boolean isVirusExist = viruses.stream()
+                                    .anyMatch(virus -> virus.getMutationStage() == currentVirusStage+1);
+                            if(isVirusExist) {
+                                virusMutationService.tryMutateVirus(person, viruses);
+                            } else {
+                                Optional<Virus> newStageVirus = virusMutationService.tryNewMutateVirus(person);
+                                if(!newStageVirus.equals(Optional.of(prevoiusVirus))) {
+                                    viruses.add(newStageVirus.get());
+                                }
                             }
                         }
                     });
@@ -125,7 +169,14 @@ public class Simulation {
             for (Person person: nextEpochPeopleMap.get(HealthStatus.DEAD)) {
                 city.getCityMap()[person.getPosition().getX()][person.getPosition().getY()].getPeople().remove(person);
             }
-            city.updatePopulation(nextEpochPeopleMap);
+            List<Person> allPeople = nextEpochPeopleMap.values().stream()
+                    .flatMap(List::stream)
+                    .collect(Collectors.toList());
+
+            Map<HealthStatus, List<Person>> regrouped = allPeople.stream()
+                    .collect(Collectors.groupingBy(Person::getHealthStatus));
+
+            city.updatePopulation(regrouped);
 
             System.out.println("Epoch " + currentEpoch + " completed.");
 
