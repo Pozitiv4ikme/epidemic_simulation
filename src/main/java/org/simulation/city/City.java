@@ -5,7 +5,6 @@ import org.simulation.config.LocationConfigData;
 import org.simulation.locations.LocationType;
 import org.simulation.people.HealthStatus;
 import org.simulation.people.Person;
-import org.simulation.people.PersonFactory;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,7 +23,7 @@ public class City {
     public City(CityConfig cityConfig) {
         this.width = cityConfig.width();
         this.height = cityConfig.height();
-        this.cityMap = new CityCell[width][height];
+        this.cityMap = new CityCell[height][width];
         this.population = cityConfig.population();
         this.infectedPercentage = cityConfig.infectedPercentage();
         this.locationsData = cityConfig.locationsData();

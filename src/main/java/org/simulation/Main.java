@@ -1,10 +1,6 @@
 package org.simulation;
 
 import org.simulation.city.CityCell;
-import org.simulation.people.HealthStatus;
-import org.simulation.people.Person;
-import org.simulation.people.Position;
-import org.simulation.services.*;
 
 import org.simulation.config.ConfigLoader;
 import org.simulation.config.SimulationConfig;

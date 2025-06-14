@@ -1,10 +1,11 @@
 {
-  "totalNumberOfEpochs": 300,
-  "numberOfMovesPerEpoch": 5,
+  "totalNumberOfEpochs": 10,
+  "numberOfMovesPerEpoch": 3,
+  "csvFilePath": "simulation_results.csv",
   "cityConfig": {
-    "width": 500,
-    "height": 500,
-    "population": 500000,
+    "width": 7,
+    "height": 5,
+    "population": 100,
     "infectedPercentage": 10,
     "locationsData": {
       "MEDICAL_CENTRE": {
@@ -12,22 +13,22 @@
         "amount": 2
       },
       "HOUSE": {
-        "areaPercentage": 25,
-        "amount": 5
+        "areaPercentage": 20,
+        "amount": 2
       },
       "WORKPLACE": {
         "areaPercentage": 10,
-        "amount": 3
+        "amount": 2
       },
       "SCHOOL": {
-        "areaPercentage": 5,
+        "areaPercentage": 10,
         "amount": 2
       }
     }
   },
   "initialVirusConfig": {
-    "initialInfectionProbability": 80.0,
-    "initialLethality": 5.0,
+    "initialInfectionProbability": 35.0,
+    "initialLethality": 15.0,
     "initialRecoveryProbability": 25.3
   }
 }

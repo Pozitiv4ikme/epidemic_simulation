@@ -9,19 +9,22 @@ public class Person implements Movable {
     private HealthStatus healthStatus;
     private Position position;
     private Optional<Virus> infectedBy;
+    private String name;
 
-    public Person(int age, HealthStatus healthStatus, Position position) {
+    public Person(int age, HealthStatus healthStatus, Position position, String name) {
         this.age = age;
         this.healthStatus = healthStatus;
         this.position = position;
         this.infectedBy = Optional.empty();
+        this.name = name;
     }
 
-    public Person(int age, HealthStatus healthStatus, Position position, Virus infectedBy) {
+    public Person(int age, HealthStatus healthStatus, Position position, Virus infectedBy, String name) {
         this.age = age;
         this.healthStatus = healthStatus;
         this.position = position;
         this.infectedBy = Optional.of(infectedBy);
+        this.name = name;
     }
 
     public void setHealthStatus(HealthStatus healthStatus) {
@@ -35,6 +38,7 @@ public class Person implements Movable {
     public int getAge() {
         return age;
     }
+    public String getName() {return name;}
 
     public HealthStatus getHealthStatus() {
         return healthStatus;
@@ -54,8 +58,6 @@ public class Person implements Movable {
 
     @Override
     public String toString() {
-        return "Person{" +
-                "age=" + age +
-                '}';
+        return name;
     }
 }

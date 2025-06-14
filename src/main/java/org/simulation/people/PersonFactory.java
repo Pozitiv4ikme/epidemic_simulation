@@ -20,8 +20,8 @@ public class PersonFactory {
         Virus virus = viruses.get(viruses.size() - 1);
 
         for (int i = 0; i < totalPopulation; i++) {
-            int x = random.nextInt(width);
-            int y = random.nextInt(height);
+            int x = random.nextInt(height);
+            int y = random.nextInt(width);
             Position position = new Position(x, y);
 
             int age = random.nextInt(95) + 6;
@@ -37,8 +37,8 @@ public class PersonFactory {
             }
 
             Person person = infectedBy.isPresent()
-                    ? new Person(age, status, position, infectedBy.get())
-                    : new Person(age, status, position);
+                    ? new Person(age, status, position, infectedBy.get(), "P"+i)
+                    : new Person(age, status, position, "P"+i);
 
             people.add(person);
             city.getCityMap()[x][y].getPeople().add(person);

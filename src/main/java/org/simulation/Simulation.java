@@ -2,7 +2,6 @@ package org.simulation;
 
 import org.simulation.city.City;
 import org.simulation.city.CityCell;
-import org.simulation.config.CityConfig;
 import org.simulation.config.SimulationConfig;
 import org.simulation.locations.Location;
 import org.simulation.people.HealthStatus;
@@ -21,6 +20,7 @@ public class Simulation {
     private final List<Epoch> epochs;
     private final int maxEpochs;
     private final int numberOfMovesPerEpoch;
+    private final CsvLogger csvLogger;
 
     private final ProbabilityService probabilityService = new ProbabilityService();
     private final MovementService movementService = new MovementService(probabilityService);
@@ -35,6 +35,7 @@ public class Simulation {
         this.maxEpochs = config.totalNumberOfEpochs();
         this.numberOfMovesPerEpoch = config.numberOfMovesPerEpoch();
         this.city = new City(config.cityConfig());
+        this.csvLogger = new CsvLogger(config.csvFilePath(), "epoch,new_infected,total_infected,new_deaths,total_deaths");
 
         Virus initialVirus = new Virus(config.initialVirusConfig());
         this.viruses = new ArrayList<>();
@@ -64,7 +65,10 @@ public class Simulation {
 
     public void worldSimulation() {
         int currentEpoch = 0;
-        int currentDeath = 0;
+        int newDeath = 0;
+        int startEpochInfected = 0;
+        int allDead = 0;
+
 
         while(currentEpoch < this.maxEpochs) {
             Map<HealthStatus, List<Person>> currentCityPeople = city.getPeople();
@@ -81,10 +85,15 @@ public class Simulation {
             for(Person person: allPeopleInThisEpoch) {
                 movementService.moving(person, city, numberOfMovesPerEpoch);
 
+                if (person.getHealthStatus() == HealthStatus.INFECTED) {
+                    startEpochInfected++;
+                }
+
                 deathService.evaluateDeath(person);
                 HealthStatus endEpochStatus = person.getHealthStatus();
-                if (person.getHealthStatus()==HealthStatus.DEAD)
-                    currentDeath += 1;
+                if (person.getHealthStatus()==HealthStatus.DEAD) {
+                    newDeath++;
+                }
                 nextEpochPeopleMap.computeIfAbsent(endEpochStatus, k -> new ArrayList<>()).add(person);
             }
 
@@ -96,12 +105,8 @@ public class Simulation {
                             Location currentLocation = currentCell.getLocation();
                             Optional<Map<Integer, Virus>> virusStages = CityMapService.allVirusStagesInCityCell(currentCell);
                             if(virusStages.isPresent() && !virusStages.get().isEmpty()) {
-                                int infectedChecked = 0;
-                                while (virusStages.get().size() != infectedChecked) {
-                                    virusStages.get().forEach((key, virus) ->
-                                            infectionService.evaluateInfection(person, virus, currentLocation.getType())
-                                    );
-                                    infectedChecked++;
+                                for (Virus virus : virusStages.get().values()) {
+                                    infectionService.evaluateInfection(person, virus, currentLocation.getType());
                                 }
                             }
                         }
@@ -159,7 +164,7 @@ public class Simulation {
                                 virusMutationService.tryMutateVirus(person, viruses);
                             } else {
                                 Optional<Virus> newStageVirus = virusMutationService.tryNewMutateVirus(person);
-                                if(!newStageVirus.equals(Optional.of(prevoiusVirus))) {
+                                if (newStageVirus.isPresent() && !newStageVirus.get().equals(prevoiusVirus)) {
                                     viruses.add(newStageVirus.get());
                                 }
                             }
@@ -167,8 +172,6 @@ public class Simulation {
                     });
                 }
             }));
-
-            currentEpoch++;
 
             List<Person> deadPeople = nextEpochPeopleMap.get(HealthStatus.DEAD);
             if (deadPeople != null) {
@@ -183,16 +186,27 @@ public class Simulation {
             Map<HealthStatus, List<Person>> regrouped = allPeople.stream()
                     .collect(Collectors.groupingBy(Person::getHealthStatus));
 
+            System.out.println("start " + startEpochInfected);
+            int endEpochInfected = regrouped.getOrDefault(HealthStatus.INFECTED, Collections.emptyList()).size();
+            System.out.println("end " + endEpochInfected);
+            int newInfected = endEpochInfected - startEpochInfected;
+            int allInfected = 0;
+
+            if (startEpochInfected > endEpochInfected) {
+                allInfected = startEpochInfected;
+            } else if (startEpochInfected < endEpochInfected) {
+                allInfected = endEpochInfected;
+            } else {
+                allInfected = startEpochInfected;
+            }
             city.updatePopulation(regrouped);
 
+            currentEpoch++;
+            Epoch currentEpochStats = new Epoch(currentEpoch, newInfected, allInfected, newDeath, allDead);
+            this.csvLogger.log(currentEpochStats);
             System.out.println("Epoch " + currentEpoch + " completed.");
 
-            if (deadPeople != null) {
-                System.out.println("People dead: " + deadPeople.size());
-            } else {
-                System.out.println("People dead: 0");
-            }
-            if(currentDeath == getConfig().cityConfig().population())
+            if(newDeath == getConfig().cityConfig().population())
                 return;
 
             List<Person> infectedPeople = nextEpochPeopleMap.get(HealthStatus.INFECTED);

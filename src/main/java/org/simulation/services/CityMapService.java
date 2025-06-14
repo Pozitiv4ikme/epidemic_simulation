@@ -28,8 +28,8 @@ public class CityMapService {
         // 3. Fill empty cells with ROAD
         int width = city.getWidth();
         int height = city.getHeight();
-        for (int x = 0; x < width; x++) {
-            for (int y = 0; y < height; y++) {
+        for (int x = 0; x < height; x++) {
+            for (int y = 0; y < width; y++) {
                 if (city.getCityMap()[x][y] == null) {
                     Location road = new Location(LocationType.ROAD); // Adjust constructor as needed
                     city.getCityMap()[x][y] = new CityCell(road);
@@ -46,13 +46,13 @@ public class CityMapService {
         int area = location.getBuildingArea();
 
         for (int attempt = 0; attempt < 100; attempt++) {
-            int startX = (int) (Math.random() * width);
-            int startY = (int) (Math.random() * height);
+            int startX = (int) (Math.random() * height);
+            int startY = (int) (Math.random() * width);
 
             if (city.getCityMap()[startX][startY] != null) continue;
 
             List<int[]> cells = new ArrayList<>();
-            boolean[][] visited = new boolean[width][height];
+            boolean[][] visited = new boolean[height][width];
             if (fillArea(city, startX, startY, area, location, isHospital, cells, visited)) {
                 // For non-hospitals, check if any cell is near a hospital only once
                 if (!isHospital && cells.stream().anyMatch(cell -> isNearHospital(city, cell[0], cell[1]))) continue;
@@ -83,7 +83,7 @@ public class CityMapService {
 
             for (int[] dir : new int[][]{{1,0},{-1,0},{0,1},{0,-1}}) {
                 int nx = x + dir[0], ny = y + dir[1];
-                if (nx >= 0 && ny >= 0 && nx < width && ny < height && !visited[nx][ny]) {
+                if (nx >= 0 && ny >= 0 && nx < height && ny < width && !visited[nx][ny]) {
                     visited[nx][ny] = true;
                     queue.add(new int[]{nx, ny});
                 }
@@ -102,7 +102,7 @@ public class CityMapService {
             for (int dy = -1; dy <= 1; dy++) {
                 if (dx == 0 && dy == 0) continue;
                 int nx = x + dx, ny = y + dy;
-                if (nx >= 0 && ny >= 0 && nx < width && ny < height) {
+                if (nx >= 0 && ny >= 0 && nx < height && ny < width) {
                     CityCell cell = city.getCityMap()[nx][ny];
                     if (cell != null && cell.getLocation().getType() == LocationType.MEDICAL_CENTRE) {
                         return true;
