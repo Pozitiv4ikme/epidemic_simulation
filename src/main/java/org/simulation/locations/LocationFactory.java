@@ -38,6 +38,11 @@ public class LocationFactory {
             // Calculate area to allocate for each location typ
             double totalAreaForType = totalArea * (data.areaPercentage() / 100.0);
 
+            // Skip if no area or locations to create
+            if(totalAreaForType <= 0 || amount <= 0) {
+                continue;
+            }
+
             // Calculate area per location, minimum 1
             int buildingAreaPerLocation = Math.max(1, (int) Math.round(totalAreaForType / amount));
 

@@ -1,6 +1,9 @@
 package org.simulation.config;
 
+import org.simulation.exceptions.CityConfigException;
+import org.simulation.exceptions.LocationConfigDataException;
 import org.simulation.locations.LocationType;
+import org.simulation.people.HealthStatus;
 
 import java.util.Map;
 
@@ -15,4 +18,21 @@ import java.util.Map;
 
 public record CityConfig(int width, int height, int population, int infectedPercentage,
                          Map<LocationType, LocationConfigData> locationsData) {
+    public void validate() {
+        if (width == 0 && height == 0 && population == 0 && infectedPercentage == 0 && locationsData == null) {
+            throw new CityConfigException("City configuration cannot be empty.");
+        }
+        if (width <= 0 || height <= 0) {
+            throw new CityConfigException("Width and height must be positive integers.");
+        }
+        if (population <= 0) {
+            throw new CityConfigException("Population must be a positive integer.");
+        }
+        if (infectedPercentage <= 0 || infectedPercentage > 100) {
+            throw new CityConfigException("Infected percentage must be greater than 0 and less than 100.");
+        }
+        if (locationsData.isEmpty()) {
+            throw new CityConfigException("Locations data cannot be empty.");
+        }
+    }
 }

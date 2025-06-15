@@ -6,5 +6,15 @@ package org.simulation.config;
  * @param amount         Number of locations of this type to be created.
  */
 
+import org.simulation.exceptions.LocationConfigDataException;
+
 public record LocationConfigData(double areaPercentage, int amount) {
+    public LocationConfigData {
+        if (areaPercentage < 0 || areaPercentage > 100) {
+            throw new LocationConfigDataException("Area percentage must be between 0 and 100.");
+        }
+        if (amount < 0) {
+            throw new LocationConfigDataException("Amount for location cannot be negative.");
+        }
+    }
 }

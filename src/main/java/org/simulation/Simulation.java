@@ -44,7 +44,7 @@ public class Simulation {
         this.maxEpochs = config.totalNumberOfEpochs();
         this.numberOfMovesPerEpoch = config.numberOfMovesPerEpoch();
         this.city = new City(config.cityConfig());
-        this.csvLogger = new CsvLogger(config.csvFilePath(), "epoch,new_infected,total_infected,new_deaths,total_deaths");
+        this.csvLogger = new CsvLogger(config.resultsCsvFilePath(), "epoch,new_infected,total_infected,new_deaths,total_deaths");
 
         this.epochProcessor = createEpochProcessor();
 

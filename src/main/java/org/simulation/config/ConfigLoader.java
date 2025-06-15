@@ -22,8 +22,6 @@ public class ConfigLoader {
 
     public static SimulationConfig load(String pathToJsonInResources) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
-
-        // Disable failure on missing creator properties (record components)
         mapper.configure(DeserializationFeature.FAIL_ON_NULL_CREATOR_PROPERTIES, false);
         ClassLoader classLoader = ConfigLoader.class.getClassLoader();
         InputStream inputStream = classLoader.getResourceAsStream(pathToJsonInResources);

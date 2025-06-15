@@ -7,6 +7,22 @@ package org.simulation.config;
  * @param initialRecoveryProbability  Probability that an infected person recovers.
  */
 
+import org.simulation.exceptions.VirusConfigException;
+
 public record VirusConfig(double initialInfectionProbability, double initialLethality,
                           double initialRecoveryProbability) {
+    public void validate() {
+        if (initialInfectionProbability == 0 && initialLethality == 0 && initialRecoveryProbability == 0) {
+            throw new VirusConfigException("Virus configuration cannot be empty.");
+        }
+        if (initialInfectionProbability <= 0 || initialInfectionProbability > 100) {
+            throw new VirusConfigException("Initial infection probability must be between 0 and 100.");
+        }
+        if (initialLethality <= 0 || initialLethality > 100) {
+            throw new VirusConfigException("Initial lethality must be between 0 and 100.");
+        }
+        if (initialRecoveryProbability <= 0 || initialRecoveryProbability > 100) {
+            throw new VirusConfigException("Initial recovery probability must be between 0 and 100.");
+        }
+    }
 }
