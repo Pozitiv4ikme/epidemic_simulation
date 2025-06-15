@@ -73,12 +73,12 @@ public class VirusMutationService {
      */
 
     private double increase(double base, double percentChange) {
-        if(base == 100.0) return base;
-        return base + base * percentChange / 100.0;
+        double result = base + base * percentChange / 100.0;
+        return Math.min(result, 100.0);
     }
 
     private double decrease(double base, double percentChange) {
-        if(base == 0.0) return base;
-        return base - base * percentChange / 100.0;
+        double result = base - base * percentChange / 100.0;
+        return Math.max(result, 0.0);
     }
 }
