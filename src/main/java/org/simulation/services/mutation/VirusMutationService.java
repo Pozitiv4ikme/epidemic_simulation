@@ -1,6 +1,7 @@
-package org.simulation.services;
+package org.simulation.services.mutation;
 
 import org.simulation.people.Person;
+import org.simulation.services.ProbabilityService;
 import org.simulation.virus.AgeGroupVirusImpact;
 import org.simulation.virus.Virus;
 
@@ -30,6 +31,7 @@ public class VirusMutationService {
         return Optional.of(mutated);
     }
 
+    // why we need here return type Optional<Virus>?
     public Optional<Virus> tryMutateVirus(Person person, List<Virus> viruses) {
         AgeGroupVirusImpact profile = AgeGroupVirusImpact.getProfileForAge(person.getAge());
 

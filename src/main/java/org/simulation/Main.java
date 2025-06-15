@@ -34,19 +34,14 @@ public class Main {
             System.out.println();
         }
 
-        for (CityCell[] cityCellRow : simulation.getCity().getCityMap()) {
-            for (CityCell cell : cityCellRow) {
-                if(cell.getPeople().isEmpty()) {
-                    System.out.print(0 + " ");
-                    continue;
-                }
-                System.out.print(cell.getPeople().size() + " ");
-            }
-            System.out.println();
-        }
+        printPeopleOnTheCityMap(simulation);
 
         simulation.worldSimulation();
 
+        printPeopleOnTheCityMap(simulation);
+    }
+
+    private static void printPeopleOnTheCityMap(Simulation simulation) {
         for (CityCell[] cityCellRow : simulation.getCity().getCityMap()) {
             for (CityCell cell : cityCellRow) {
                 if(cell.getPeople().isEmpty()) {

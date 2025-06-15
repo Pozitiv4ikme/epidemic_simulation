@@ -18,7 +18,7 @@ public class CsvLogger {
         String timestamp = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss").format(new Date());
         this.fileName = baseName + "_" + timestamp + ".csv";
         this.header = header;
-        this.fileInitialized = false; // Файл точно новий, тому false
+        this.fileInitialized = false;
     }
 
     public void log(Epoch epoch) {

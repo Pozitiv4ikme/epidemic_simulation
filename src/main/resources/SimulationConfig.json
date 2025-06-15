@@ -1,5 +1,5 @@
 {
-  "totalNumberOfEpochs": 10,
+  "totalNumberOfEpochs": 15,
   "numberOfMovesPerEpoch": 3,
   "csvFilePath": "simulation_results.csv",
   "cityConfig": {

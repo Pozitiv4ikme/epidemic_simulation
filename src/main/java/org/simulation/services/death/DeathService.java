@@ -1,8 +1,9 @@
-package org.simulation.services;
+package org.simulation.services.death;
 
 import org.simulation.people.AgeGroupImpact;
 import org.simulation.people.HealthStatus;
 import org.simulation.people.Person;
+import org.simulation.services.ProbabilityService;
 
 public class DeathService {
     private final ProbabilityService probabilityService;

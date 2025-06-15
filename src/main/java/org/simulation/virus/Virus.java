@@ -57,10 +57,10 @@ public class  Virus {
     @Override
     public String toString() {
         return "Virus{" +
-                "infectionProbability=" + infectionProbability +
+                "infectionProbability=" + String.format("%.2f", infectionProbability) +
                 ", mutationStage=" + mutationStage +
-                ", lethality=" + lethality +
-                ", recoverProbability=" + recoverProbability +
+                ", lethality=" + String.format("%.2f", lethality) +
+                ", recoverProbability=" + String.format("%.2f", recoverProbability) +
                 '}';
     }
 }

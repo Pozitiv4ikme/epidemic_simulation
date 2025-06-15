@@ -1,10 +1,11 @@
-package org.simulation.services;
+package org.simulation.services.recovery;
 
 import org.simulation.people.AgeGroupImpact;
 import org.simulation.people.HealthStatus;
 import org.simulation.people.Person;
 import org.simulation.locations.LocationType;
 import org.simulation.locations.LocationHealthImpact;
+import org.simulation.services.ProbabilityService;
 
 import java.util.Optional;
 

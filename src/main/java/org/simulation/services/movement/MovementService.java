@@ -1,9 +1,10 @@
-package org.simulation.services;
+package org.simulation.services.movement;
 
 import org.simulation.city.City;
 import org.simulation.people.AgeGroupImpact;
 import org.simulation.people.Person;
 import org.simulation.people.Position;
+import org.simulation.services.ProbabilityService;
 
 import java.util.ArrayList;
 import java.util.List;

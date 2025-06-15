@@ -12,6 +12,7 @@ import java.util.*;
 
 public class CityMapService {
 
+    // why we need here return CityCell[][] (cityMap)?
     public static CityCell[][] fillCityMap(City city) {
         List<Location> allLocations = LocationFactory.generateLocations(city.getWidth(), city.getHeight(), city.getLocationsData());
 
@@ -40,6 +41,7 @@ public class CityMapService {
         return city.getCityMap();
     }
 
+    // why we need here return boolean?
     private static boolean placeLocationWithConstraints(City city, Location location, boolean isHospital) {
         int width = city.getWidth();
         int height = city.getHeight();

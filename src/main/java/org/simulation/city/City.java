@@ -56,6 +56,9 @@ public class City {
     public void updatePopulation(Map<HealthStatus, List<Person>> updatedPeople) {
         this.people = updatedPeople;
     }
+    public void deletePersonFromMap(Person person) {
+        cityMap[person.getPosition().getX()][person.getPosition().getY()].removePerson(person);
+    }
 
     public int getInfectedPercentage() {
         return infectedPercentage;
