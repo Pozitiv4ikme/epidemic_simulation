@@ -1,10 +1,10 @@
 package org.simulation.virus;
 
 public enum AgeGroupVirusImpact {
-    CHILD(6, 24, 70, 10.0, 30.0, 5.0),
-    ADULT(25, 44, 70, 20.0, 50.0, -15.0),
-    MIDDLE_AGED(45, 64, 80, 30.0, 60.0, -35.0),
-    SENIOR(65, 100, 80, 40.0, 25.0, -40.0);
+    CHILD(6, 24, 60, 4.0, 25.5, 5.0),
+    ADULT(25, 44, 70, 13.0, 35.0, 3.0),
+    MIDDLE_AGED(45, 64, 80, 22.0, 52.0, 2.0),
+    SENIOR(65, 100, 80, 34.0, 25.0, 1.0);
 
     private final int minAge;
     private final int maxAge;
@@ -14,14 +14,14 @@ public enum AgeGroupVirusImpact {
     private final double percentRecoveryProbability;
 
     AgeGroupVirusImpact(int minAge, int maxAge,
-                        double percentVirusMutation, double percentLethalityInfluence,
-                        double percentInfectionProbabilityInfluence, double percentRecoveryProbabilityInfluence) {
+                        double percentVirusMutation, double percentLethality,
+                        double percentInfectionProbability, double percentRecoveryProbability) {
         this.minAge = minAge;
         this.maxAge = maxAge;
         this.percentVirusMutation = percentVirusMutation;
-        this.percentLethality = percentLethalityInfluence;
-        this.percentInfectionProbability = percentInfectionProbabilityInfluence;
-        this.percentRecoveryProbability = percentRecoveryProbabilityInfluence;
+        this.percentLethality = percentLethality;
+        this.percentInfectionProbability = percentInfectionProbability;
+        this.percentRecoveryProbability = percentRecoveryProbability;
     }
 
     public int getMinAge() { return minAge; }

@@ -37,10 +37,10 @@ public class VirusMutationService {
         Virus current = person.getInfectedBy().get();
         if (!probabilityService.happens(profile.getPercentVirusMutation())) return Optional.of(current);
         Virus mutated = new Virus(
-                adjust(current.getInfectionProbability(), profile.getPercentInfectionProbability()),
+                increase(current.getInfectionProbability(), profile.getPercentInfectionProbability()),
                 current.getMutationStage() + 1,
-                adjust(current.getLethality(), profile.getPercentLethality()),
-                adjust(current.getRecoverProbability(), profile.getPercentRecoveryProbability())
+                increase(current.getLethality(), profile.getPercentLethality()),
+                decrease(current.getRecoverProbability(), profile.getPercentRecoveryProbability())
         );
         
         person.setInfectedBy(Optional.of(mutated));
@@ -72,12 +72,13 @@ public class VirusMutationService {
      * @return adjusted value
      */
 
-    private double adjust(double base, double percentChange) {
-        double difference;
-        if(base > 0)
-            difference = 100.0 - base;
-        else
-            difference = 100.0 + base;
-        return base + difference * percentChange / 100.0;
+    private double increase(double base, double percentChange) {
+        if(base == 100.0) return base;
+        return base + base * percentChange / 100.0;
+    }
+
+    private double decrease(double base, double percentChange) {
+        if(base == 0.0) return base;
+        return base - base * percentChange / 100.0;
     }
 }

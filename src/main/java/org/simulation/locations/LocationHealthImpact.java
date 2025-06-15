@@ -1,10 +1,10 @@
 package org.simulation.locations;
 
 public enum LocationHealthImpact {
-    MEDICAL_CENTRE(LocationType.MEDICAL_CENTRE, 10.0, 30.0),
-    HOUSE(LocationType.HOUSE, 3.0, 10.0),
+    MEDICAL_CENTRE(LocationType.MEDICAL_CENTRE, 2.5, 38.5),
+    HOUSE(LocationType.HOUSE, 6.5, 10.0),
     WORKPLACE(LocationType.WORKPLACE, 15.0, 1.5),
-    SCHOOL(LocationType.SCHOOL, 25.0, 5.0),
+    SCHOOL(LocationType.SCHOOL, 21.0, 2.5),
     NONE(null, 0.0, 0.0);
 
     private final LocationType type;
