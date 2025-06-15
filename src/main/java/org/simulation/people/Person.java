@@ -4,12 +4,25 @@ import org.simulation.virus.Virus;
 
 import java.util.Optional;
 
+/**
+ * Represents a person in the simulation with attributes like age, health status, and position.
+ * Can be infected by a virus and is capable of moving.
+ */
+
 public class Person implements Movable {
     private int age;
     private HealthStatus healthStatus;
     private Position position;
     private Optional<Virus> infectedBy;
     private String name;
+
+    /**
+     * Constructor for a healthy person.
+     * @param age person's age
+     * @param healthStatus current health status
+     * @param position initial position in the city
+     * @param name unique name or ID
+     */
 
     public Person(int age, HealthStatus healthStatus, Position position, String name) {
         this.age = age;
@@ -19,6 +32,14 @@ public class Person implements Movable {
         this.name = name;
     }
 
+    /**
+     * Constructor for an infected person.
+     * @param age person's age
+     * @param healthStatus current health status
+     * @param position initial position in the city
+     * @param infectedBy virus that infected the person
+     * @param name unique name or ID
+     */
     public Person(int age, HealthStatus healthStatus, Position position, Virus infectedBy, String name) {
         this.age = age;
         this.healthStatus = healthStatus;
@@ -51,6 +72,11 @@ public class Person implements Movable {
     public  Optional<Virus>  getInfectedBy() {
         return infectedBy;
     }
+
+    /**
+     * Moves the person to a new position.
+     * @param position new position
+     */
 
     public void move(Position position) {
         this.position = position;

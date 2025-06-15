@@ -11,6 +11,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Represents the simulation city with its map, population, and location data.
+ */
+
 public class City {
     private final int width;
     private final int height;
@@ -19,6 +23,11 @@ public class City {
     private final int infectedPercentage;
     private final Map<LocationType, LocationConfigData> locationsData;
     private CityCell[][] cityMap;
+
+    /**
+     * Creates a city instance using configuration data.
+     * @param cityConfig configuration for the city
+     */
 
     public City(CityConfig cityConfig) {
         this.width = cityConfig.width();
@@ -45,6 +54,10 @@ public class City {
         return people;
     }
 
+    /**
+     * Groups the provided people by health status and stores them.
+     */
+
     public void setPeople(List<Person> people) {
         Map<HealthStatus, List<Person>> cityPeople = new HashMap<>();
         for(Person person: people) {
@@ -53,9 +66,18 @@ public class City {
         this.people = cityPeople;
     }
 
+    /**
+     * Replaces the city's population with the updated data.
+     */
+
     public void updatePopulation(Map<HealthStatus, List<Person>> updatedPeople) {
         this.people = updatedPeople;
     }
+
+    /**
+     * Removes a person from their cell on the city map.
+     */
+
     public void deletePersonFromMap(Person person) {
         cityMap[person.getPosition().getX()][person.getPosition().getY()].removePerson(person);
     }

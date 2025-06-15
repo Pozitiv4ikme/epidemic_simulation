@@ -2,11 +2,20 @@ package org.simulation.virus;
 
 import org.simulation.config.VirusConfig;
 
+/**
+ * Represents a virus with infection probability, mutation stage, lethality, and recovery probability.
+ */
+
 public class  Virus {
     private double infectionProbability;
     private int mutationStage;
     private double lethality;
     private double recoverProbability;
+
+    /**
+     * Constructs a virus from a configuration object.
+     * @param virusConfig configuration with initial virus parameters
+     */
 
     public Virus(VirusConfig virusConfig) {
         this.infectionProbability = virusConfig.initialInfectionProbability();
@@ -14,6 +23,14 @@ public class  Virus {
         this.lethality = virusConfig.initialLethality();
         this.recoverProbability = virusConfig.initialRecoveryProbability();
     }
+
+    /**
+     * Constructs a virus with specified parameters.
+     * @param infectionProbability probability to infect others
+     * @param mutationStage current mutation stage
+     * @param lethality lethality rate of the virus
+     * @param recoverProbability probability to recover
+     */
 
     public Virus(double infectionProbability, int mutationStage, double lethality, double recoverProbability) {
         this.infectionProbability = infectionProbability;

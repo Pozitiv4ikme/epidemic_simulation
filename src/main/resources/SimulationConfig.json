@@ -3,9 +3,9 @@
   "numberOfMovesPerEpoch": 3,
   "csvFilePath": "simulation_results.csv",
   "cityConfig": {
-    "width": 7,
-    "height": 5,
-    "population": 100,
+    "width": 10,
+    "height": 10,
+    "population": 1000,
     "infectedPercentage": 10,
     "locationsData": {
       "MEDICAL_CENTRE": {

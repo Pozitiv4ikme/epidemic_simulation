@@ -12,3 +12,6 @@ plugins {
 
 rootProject.name = 'epidemic_simulation'
 include('app')
+include 'src:test:untitled'
+findProject(':src:test:untitled')?.name = 'untitled'
+

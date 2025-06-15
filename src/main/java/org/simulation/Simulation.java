@@ -6,7 +6,7 @@ import org.simulation.people.HealthStatus;
 import org.simulation.people.Person;
 import org.simulation.people.PersonFactory;
 import org.simulation.services.*;
-import org.simulation.services.InfectionService;
+import org.simulation.services.infection.InfectionService;
 import org.simulation.services.death.DeathHandler;
 import org.simulation.services.death.DeathService;
 import org.simulation.services.infection.InfectionHandler;
@@ -20,6 +20,10 @@ import org.simulation.virus.Virus;
 
 import java.util.*;
 
+/**
+ * The main engine responsible for managing and running the simulation logic.
+ */
+
 public class Simulation {
     private final City city;
     private final List<Virus> viruses;
@@ -29,6 +33,10 @@ public class Simulation {
     private final int numberOfMovesPerEpoch;
     private final CsvLogger csvLogger;
     private final EpochProcessor epochProcessor;
+
+    /**
+     * Constructs the Simulation with its configuration.
+     */
 
     public Simulation(SimulationConfig config) {
         this.config = config;
@@ -40,15 +48,21 @@ public class Simulation {
 
         this.epochProcessor = createEpochProcessor();
 
+        // Initialize the first virus
         Virus initialVirus = new Virus(config.initialVirusConfig());
         this.viruses = new ArrayList<>();
         this.viruses.add(initialVirus);
 
+        // Generate map and people
         CityMapService.fillCityMap(city);
         PersonFactory personFactory = new PersonFactory();
         List<Person> generatedPeople = personFactory.generatePeople(city, viruses);
         city.setPeople(generatedPeople);
     }
+
+    /**
+     * Creates the core logic handlers for processing each simulation epoch.
+     */
 
     private EpochProcessor createEpochProcessor() {
         ProbabilityService probabilityService = new ProbabilityService();
@@ -83,19 +97,28 @@ public class Simulation {
         return epochs;
     }
 
+    /**
+     * Starts the simulation process.
+     */
+
     public void worldSimulation() {
         int currentEpoch = 0;
 
         while(currentEpoch < this.maxEpochs) {
             currentEpoch++;
+
+            // Process logic for the current day
             Epoch epoch = epochProcessor.processEpoch(currentEpoch, numberOfMovesPerEpoch, city, viruses);
 
+            // Save to CSV and display progress
             this.csvLogger.log(epoch);
             System.out.println("Epoch " + currentEpoch + " completed.");
 
-            if(city.getPeople().get(HealthStatus.DEAD).size() == city.getPopulation())
+            // Stop if everyone is dead
+            if(city.getPeople().getOrDefault(HealthStatus.DEAD, Collections.emptyList()).size() == city.getPopulation())
                 return;
 
+            // Stop if no infected people remain
             if(!city.getPeople().containsKey(HealthStatus.INFECTED)) return;
         }
     }

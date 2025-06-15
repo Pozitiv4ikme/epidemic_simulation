@@ -10,23 +10,31 @@ import org.simulation.virus.Virus;
 
 import java.util.*;
 
+/**
+ * A utility service responsible for managing the city map,
+ * including placing locations and retrieving virus data.
+ */
+
 public class CityMapService {
 
-    // why we need here return CityCell[][] (cityMap)?
-    public static CityCell[][] fillCityMap(City city) {
+    /**
+     * Fills the city map with locations based on city size and location data.
+     * Medical centres are placed first with special constraints,
+     * then other locations are placed. Remaining empty cells are filled as roads.
+     * @param city the city to fill
+     */
+
+    public static void fillCityMap(City city) {
         List<Location> allLocations = LocationFactory.generateLocations(city.getWidth(), city.getHeight(), city.getLocationsData());
 
-        // 1. Place hospitals first
         allLocations.stream()
                 .filter(loc -> loc.getType() == LocationType.MEDICAL_CENTRE)
                 .forEach(loc -> placeLocationWithConstraints(city, loc, true));
 
-        // 2. Place other locations
         allLocations.stream()
                 .filter(loc -> loc.getType() != LocationType.MEDICAL_CENTRE)
                 .forEach(loc -> placeLocationWithConstraints(city, loc, false));
 
-        // 3. Fill empty cells with ROAD
         int width = city.getWidth();
         int height = city.getHeight();
         for (int x = 0; x < height; x++) {
@@ -37,12 +45,17 @@ public class CityMapService {
                 }
             }
         }
-
-        return city.getCityMap();
     }
 
-    // why we need here return boolean?
-    private static boolean placeLocationWithConstraints(City city, Location location, boolean isHospital) {
+    /**
+     * Tries to place a location on the city map respecting constraints.
+     * Hospitals can be placed anywhere; other locations must avoid proximity to hospitals.
+     * @param city       the city map
+     * @param location   location to place
+     * @param isHospital true if the location is a hospital
+     */
+
+    private static void placeLocationWithConstraints(City city, Location location, boolean isHospital) {
         int width = city.getWidth();
         int height = city.getHeight();
         int area = location.getBuildingArea();
@@ -56,17 +69,29 @@ public class CityMapService {
             List<int[]> cells = new ArrayList<>();
             boolean[][] visited = new boolean[height][width];
             if (fillArea(city, startX, startY, area, location, isHospital, cells, visited)) {
-                // For non-hospitals, check if any cell is near a hospital only once
                 if (!isHospital && cells.stream().anyMatch(cell -> isNearHospital(city, cell[0], cell[1]))) continue;
 
                 for (int[] cell : cells) {
                     city.getCityMap()[cell[0]][cell[1]] = new CityCell(location);
                 }
-                return true;
+                return;
             }
         }
-        return false;
     }
+
+    /**
+     * Attempts to fill a contiguous area in the city map for the location.
+     * Ensures cells meet constraints such as not being near hospitals if required.
+     * @param city       city map
+     * @param startX     start x coordinate
+     * @param startY     start y coordinate
+     * @param areaSize   required area size
+     * @param location   location to place
+     * @param isHospital is this a hospital
+     * @param result     collected cells for placement
+     * @param visited    visited cells tracker
+     * @return true if the area could be filled
+     */
 
     private static boolean fillArea(City city, int startX, int startY, int areaSize, Location location, boolean isHospital, List<int[]> result, boolean[][] visited) {
         int width = city.getWidth(), height = city.getHeight();
@@ -95,6 +120,13 @@ public class CityMapService {
         return result.size() == areaSize;
     }
 
+    /**
+     * Checks if a given cell is adjacent to any hospital location.
+     * @param city city map
+     * @param x    x coordinate
+     * @param y    y coordinate
+     * @return true if near a hospital, false otherwise
+     */
 
     private static boolean isNearHospital(City city, int x, int y) {
         int width = city.getWidth();
@@ -114,6 +146,13 @@ public class CityMapService {
         }
         return false;
     }
+
+    /**
+     * Collects all distinct virus mutation stages present in a city cell.
+     * Returns a map of mutation stage to virus, sorted in descending order.
+     * @param cell the city cell to inspect
+     * @return Optional map of mutation stage to Virus if there are multiple people, empty otherwise
+     */
 
     public static Optional<Map<Integer, Virus>> allVirusStagesInCityCell(CityCell cell) {
         List<Person> peopleInCell = cell.getPeople();

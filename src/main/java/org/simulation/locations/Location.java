@@ -2,11 +2,23 @@ package org.simulation.locations;
 
 import java.util.Optional;
 
+/**
+ * Represents a location in the city with optional ID, name, type, and building area.
+ */
+
 public class Location {
     private Optional<Integer> id;
     private String name;
     private LocationType type;
     private int buildingArea;
+
+    /**
+     * Constructs a location with a specific ID, name, type, and building area.
+     * @param id the unique identifier of the location
+     * @param name the name of the location
+     * @param type the type of location
+     * @param buildingArea the size/area of the building
+     */
 
     public Location(int id, String name, LocationType type, int buildingArea) {
         this.id = Optional.of(id);
@@ -15,12 +27,22 @@ public class Location {
         this.buildingArea = buildingArea;
     }
 
+    /**
+     * Constructs a location with a type only, without ID and zero building area.
+     * @param type the type of location
+     */
+
     public Location(LocationType type) {
         this.id = Optional.empty();
         this.type = type;
         this.name = type.getName();
         this.buildingArea = 0;
     }
+
+    /**
+     * Returns a symbol to display on the map, combining base symbol and optional ID.
+     * @return map display symbol
+     */
 
     public String getMapDisplaySymbol() {
         if(id.isPresent()) {
@@ -29,6 +51,11 @@ public class Location {
             return String.format("%c", type.getBaseDisplaySymbol());
         }
     }
+
+    /**
+     * Returns the health impact of this location type.
+     * @return location health impact
+     */
 
     public LocationHealthImpact getLocationHealthImpact() {
         if(!type.hasHealthImpact()) {

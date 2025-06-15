@@ -9,12 +9,30 @@ import org.simulation.services.ProbabilityService;
 
 import java.util.Optional;
 
+/**
+ * A service responsible for evaluating and handling recovery of infected individuals.
+ */
+
 public class RecoveryService {
     private final ProbabilityService probabilityService;
+
+    /**
+     * Constructs the RecoveryService with the given ProbabilityService.
+     * @param probabilityService service used for probabilistic checks
+     */
 
     public RecoveryService(ProbabilityService probabilityService) {
         this.probabilityService = probabilityService;
     }
+
+    /**
+     * Evaluates whether a given person recovers based on their age group profile,
+     * current virus recovery probability, and the impact of the location type.
+     * If the recovery occurs, the person's health status is set to HEALTHY and
+     * infection is cleared.
+     * @param person       the person to evaluate for recovery
+     * @param locationType the type of location where the person is
+     */
 
     public void evaluateRecovery(Person person, LocationType locationType) {
         AgeGroupImpact personProfile = AgeGroupImpact.getProfileForAge(person.getAge());
