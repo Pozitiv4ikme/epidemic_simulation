@@ -14,8 +14,8 @@ import java.io.InputStream;
 public class ConfigLoader {
 
     /**
-     * Loads the simulation configuration from the given path inside the resources directory.
-     * @param pathToJsonInResources Path to the JSON configuration file relative to the resources directory.
+     * Loads the simulation configuration from the given path inside the resources' directory.
+     * @param pathToJsonInResources Path to the JSON configuration file relative to the resources' directory.
      * @return A fully constructed {@link SimulationConfig} object.
      * @throws IOException If the file is not found or cannot be read.
      */
@@ -23,8 +23,7 @@ public class ConfigLoader {
     public static SimulationConfig load(String pathToJsonInResources) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
         mapper.configure(DeserializationFeature.FAIL_ON_NULL_CREATOR_PROPERTIES, false);
-        ClassLoader classLoader = ConfigLoader.class.getClassLoader();
-        InputStream inputStream = classLoader.getResourceAsStream(pathToJsonInResources);
+        InputStream inputStream = ConfigLoader.class.getClassLoader().getResourceAsStream(pathToJsonInResources);
 
         return mapper.readValue(inputStream, SimulationConfig.class);
     }

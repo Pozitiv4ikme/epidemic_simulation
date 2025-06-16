@@ -1,12 +1,16 @@
 package org.simulation.locations;
 
+import org.simulation.MakeId;
+
 import java.util.Optional;
+import java.util.Random;
+import java.util.UUID;
 
 /**
  * Represents a location in the city with optional ID, name, type, and building area.
  */
 
-public class Location {
+public class Location implements MakeId {
     private Optional<Integer> id;
     private String name;
     private LocationType type;
@@ -83,5 +87,10 @@ public class Location {
 
     public int getBuildingArea() {
         return buildingArea;
+    }
+
+    @Override
+    public String generateId() {
+        return UUID.randomUUID().toString();
     }
 }

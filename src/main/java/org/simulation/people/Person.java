@@ -1,15 +1,17 @@
 package org.simulation.people;
 
+import org.simulation.MakeId;
 import org.simulation.virus.Virus;
 
 import java.util.Optional;
+import java.util.Random;
 
 /**
  * Represents a person in the simulation with attributes like age, health status, and position.
  * Can be infected by a virus and is capable of moving.
  */
 
-public class Person implements Movable {
+public class Person implements Movable, MakeId {
     private int age;
     private HealthStatus healthStatus;
     private Position position;
@@ -85,5 +87,11 @@ public class Person implements Movable {
     @Override
     public String toString() {
         return name;
+    }
+
+    @Override
+    public String generateId() {
+        Random random = new Random();
+        return String.valueOf(random.nextInt(position.getX() + age) + 1 + position.getY());
     }
 }

@@ -8,8 +8,13 @@ import org.simulation.exceptions.CityConfigException;
 import org.simulation.exceptions.LocationConfigDataException;
 import org.simulation.exceptions.SimulationConfigException;
 import org.simulation.exceptions.VirusConfigException;
+import org.simulation.locations.Location;
+import org.simulation.people.HealthStatus;
+import org.simulation.people.Person;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Entry point of the simulation program.
@@ -76,5 +81,24 @@ public class Main {
 
         // Print the number of people in each cell after simulation ends
         printPeopleOnTheCityMap(simulation);
+
+        List<String> allIds = new ArrayList<>();
+        CityCell[][] cityMap = simulation.getCity().getCityMap();
+        for(CityCell[] row: cityMap) {
+            for(CityCell cell: row) {
+                Location location = cell.getLocation();
+                if(location != null && cell.getPeople() != null) {
+                    List<Person> people = cell.getPeople();
+                    for (Person person: people) {
+                        String cellId = location.generateId() + person.generateId();
+                        allIds.add(cellId);
+                    }
+                }
+            }
+        }
+
+        for(String id: allIds) {
+            System.out.print(id + ", ");
+        }
     }
 }
