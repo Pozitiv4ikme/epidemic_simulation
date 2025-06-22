@@ -9,7 +9,6 @@ import org.simulation.exceptions.LocationConfigDataException;
 import org.simulation.exceptions.SimulationConfigException;
 import org.simulation.exceptions.VirusConfigException;
 import org.simulation.locations.Location;
-import org.simulation.people.HealthStatus;
 import org.simulation.people.Person;
 
 import java.io.IOException;

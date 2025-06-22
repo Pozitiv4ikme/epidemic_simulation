@@ -1,0 +1,34 @@
+{
+  "totalNumberOfEpochs": 100,
+  "numberOfMovesPerEpoch": 5,
+  "resultsCsvFilePath": "simulation_results.csv",
+  "cityConfig": {
+    "width": 10,
+    "height": 10,
+    "population": 350,
+    "infectedPercentage": 5,
+    "locationsData": {
+      "MEDICAL_CENTRE": {
+        "areaPercentage": 10,
+        "amount": 2
+      },
+      "HOUSE": {
+        "areaPercentage": 20,
+        "amount": 5
+      },
+      "WORKPLACE": {
+        "areaPercentage": 10,
+        "amount": 3
+      },
+      "SCHOOL": {
+        "areaPercentage": 5,
+        "amount": 1
+      }
+    }
+  },
+  "initialVirusConfig": {
+    "initialInfectionProbability": 11,
+    "initialLethality": 7.0,
+    "initialRecoveryProbability": 15
+  }
+}

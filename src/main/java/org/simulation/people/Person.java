@@ -71,6 +71,10 @@ public class Person implements Movable, MakeId {
         return position;
     }
 
+    public void setPosition(Position position) {
+        this.position = position;
+    }
+
     public  Optional<Virus>  getInfectedBy() {
         return infectedBy;
     }

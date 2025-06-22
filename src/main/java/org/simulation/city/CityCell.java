@@ -14,6 +14,10 @@ public class CityCell {
     private final Location location;
     private final List<Person> people = new ArrayList<>();
 
+    public void addPerson(Person person) {
+        people.add(person);
+    }
+
     /**
      * Creates a CityCell with the specified location.
      * @param location location assigned to this cell
