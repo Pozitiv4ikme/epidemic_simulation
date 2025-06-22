@@ -51,6 +51,7 @@ public class Main {
             return;
         }
 
+        // Validate the loaded configuration
         try {
             config.validate();
         } catch (SimulationConfigException | CityConfigException | LocationConfigDataException | VirusConfigException e) {
@@ -58,6 +59,7 @@ public class Main {
             return;
         }
 
+        // Create the simulation instance using the configuration
         Simulation simulation = new Simulation(config);
 
         // Print initial layout of the city map (locations only)

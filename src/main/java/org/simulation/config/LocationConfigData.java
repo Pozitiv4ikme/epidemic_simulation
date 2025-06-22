@@ -9,10 +9,15 @@ package org.simulation.config;
 import org.simulation.exceptions.LocationConfigDataException;
 
 public record LocationConfigData(double areaPercentage, int amount) {
+
     public LocationConfigData {
+
+        // Validate that area percentage is between 0 and 100
         if (areaPercentage < 0 || areaPercentage > 100) {
             throw new LocationConfigDataException("Area percentage must be between 0 and 100.");
         }
+
+        // Ensure the amount of locations is not negative
         if (amount < 0) {
             throw new LocationConfigDataException("Amount for location cannot be negative.");
         }
