@@ -53,11 +53,11 @@ class MovementServiceTest {
         CityCell fromCell = mock(CityCell.class);
         CityCell toCell = mock(CityCell.class);
         cityMap[0][0] = fromCell;
-        cityMap[1][1] = toCell;
+        cityMap[1][0] = toCell;
         when(currentPosition.getX()).thenReturn(0);
         when(currentPosition.getY()).thenReturn(0);
         when(newPosition.getX()).thenReturn(1);
-        when(newPosition.getY()).thenReturn(1);
+        when(newPosition.getY()).thenReturn(0);
         when(city.getCityMap()).thenReturn(cityMap);
         when(fromCell.getPeople()).thenReturn(new ArrayList<>());
         when(toCell.getPeople()).thenReturn(new ArrayList<>());
@@ -66,6 +66,7 @@ class MovementServiceTest {
             ageGroupMock.when(() -> AgeGroupImpact.getProfileForAge(20)).thenReturn(ageGroupImpact);
             when(probabilityService.happens(100.0)).thenReturn(true);
 
+            // actual
             movementService.moving(person, city, 1);
 
             verify(person).move(newPosition);
@@ -73,7 +74,7 @@ class MovementServiceTest {
     }
 
     @Test
-    void testPersonDoesNotMove() {
+    void testPersonNotMove() {
         Position currentPosition = mock(Position.class);
         Position newPosition = mock(Position.class);
         List<Position> neighbours = new ArrayList<>();
@@ -94,6 +95,7 @@ class MovementServiceTest {
             ageGroupMock.when(() -> AgeGroupImpact.getProfileForAge(20)).thenReturn(ageGroupImpact);
             when(probabilityService.happens(0.0)).thenReturn(false);
 
+            // actual
             movementService.moving(person, city, 1);
 
             verify(person, never()).move(any());

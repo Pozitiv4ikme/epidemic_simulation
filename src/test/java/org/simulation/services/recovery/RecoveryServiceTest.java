@@ -32,8 +32,8 @@ class RecoveryServiceTest {
     }
 
     @Test
-    void testPersonRecovers() {
-        when(person.getAge()).thenReturn(30);
+    void testPersonRecover() {
+        when(person.getAge()).thenReturn(16);
         AgeGroupImpact profile = mock(AgeGroupImpact.class);
         when(profile.getBaseRecoveryChancePercent()).thenReturn(10.0);
         when(person.getInfectedBy()).thenReturn(Optional.of(virus));
@@ -43,12 +43,13 @@ class RecoveryServiceTest {
 
         try (MockedStatic<AgeGroupImpact> ageGroupMock = Mockito.mockStatic(AgeGroupImpact.class);
              MockedStatic<LocationHealthImpact> locationMock = Mockito.mockStatic(LocationHealthImpact.class)) {
-            ageGroupMock.when(() -> AgeGroupImpact.getProfileForAge(30)).thenReturn(profile);
-            locationMock.when(() -> LocationHealthImpact.getImpactForLocationType(LocationType.HOUSE)).thenReturn(locationImpact);
+            ageGroupMock.when(() -> AgeGroupImpact.getProfileForAge(16)).thenReturn(profile);
+            locationMock.when(() -> LocationHealthImpact.getImpactForLocationType(LocationType.SCHOOL)).thenReturn(locationImpact);
 
             when(probabilityService.happens(35.0)).thenReturn(true);
 
-            recoveryService.evaluateRecovery(person, LocationType.HOUSE);
+            // actual
+            recoveryService.evaluateRecovery(person, LocationType.SCHOOL);
 
             verify(person).setHealthStatus(HealthStatus.HEALTHY);
             verify(person).setInfectedBy(Optional.empty());
@@ -56,8 +57,8 @@ class RecoveryServiceTest {
     }
 
     @Test
-    void testPersonDoesNotRecover() {
-        when(person.getAge()).thenReturn(30);
+    void testPersonNotRecover() {
+        when(person.getAge()).thenReturn(40);
         AgeGroupImpact profile = mock(AgeGroupImpact.class);
         when(profile.getBaseRecoveryChancePercent()).thenReturn(10.0);
         when(person.getInfectedBy()).thenReturn(Optional.of(virus));
@@ -67,12 +68,13 @@ class RecoveryServiceTest {
 
         try (MockedStatic<AgeGroupImpact> ageGroupMock = Mockito.mockStatic(AgeGroupImpact.class);
              MockedStatic<LocationHealthImpact> locationMock = Mockito.mockStatic(LocationHealthImpact.class)) {
-            ageGroupMock.when(() -> AgeGroupImpact.getProfileForAge(30)).thenReturn(profile);
-            locationMock.when(() -> LocationHealthImpact.getImpactForLocationType(LocationType.HOUSE)).thenReturn(locationImpact);
+            ageGroupMock.when(() -> AgeGroupImpact.getProfileForAge(40)).thenReturn(profile);
+            locationMock.when(() -> LocationHealthImpact.getImpactForLocationType(LocationType.WORKPLACE)).thenReturn(locationImpact);
 
             when(probabilityService.happens(35.0)).thenReturn(false);
 
-            recoveryService.evaluateRecovery(person, LocationType.HOUSE);
+            // actual
+            recoveryService.evaluateRecovery(person, LocationType.WORKPLACE);
 
             verify(person, never()).setHealthStatus(HealthStatus.HEALTHY);
             verify(person, never()).setInfectedBy(Optional.empty());

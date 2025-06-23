@@ -40,7 +40,7 @@ class ProbabilityServiceTest {
     @Test
     void testHappensFiftyPercentTrue() {
         Random mockRandom = Mockito.mock(Random.class);
-        Mockito.when(mockRandom.nextDouble()).thenReturn(0.4); // less than 0.5
+        Mockito.when(mockRandom.nextDouble()).thenReturn(0.4);
         ProbabilityService service = new ProbabilityService(mockRandom);
         assertTrue(service.happens(50));
     }
@@ -48,7 +48,7 @@ class ProbabilityServiceTest {
     @Test
     void testHappensFiftyPercentFalse() {
         Random mockRandom = Mockito.mock(Random.class);
-        Mockito.when(mockRandom.nextDouble()).thenReturn(0.6); // greater than 0.5
+        Mockito.when(mockRandom.nextDouble()).thenReturn(0.6);
         ProbabilityService service = new ProbabilityService(mockRandom);
         assertFalse(service.happens(50));
     }

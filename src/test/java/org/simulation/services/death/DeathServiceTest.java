@@ -38,8 +38,10 @@ class DeathServiceTest {
 
         try (MockedStatic<AgeGroupImpact> mocked = Mockito.mockStatic(AgeGroupImpact.class)) {
             mocked.when(() -> AgeGroupImpact.getProfileForAge(30)).thenReturn(profile);
+
             when(probabilityService.happens(10.0)).thenReturn(true);
 
+            // actual
             deathService.evaluateDeath(person);
 
             verify(person).setHealthStatus(HealthStatus.DEAD);
@@ -55,8 +57,10 @@ class DeathServiceTest {
 
         try (MockedStatic<AgeGroupImpact> mocked = Mockito.mockStatic(AgeGroupImpact.class)) {
             mocked.when(() -> AgeGroupImpact.getProfileForAge(30)).thenReturn(profile);
+
             when(probabilityService.happens(10.0)).thenReturn(false);
 
+            // actual
             deathService.evaluateDeath(person);
 
             verify(person, never()).setHealthStatus(HealthStatus.DEAD);
@@ -67,16 +71,20 @@ class DeathServiceTest {
     void testInfectedPersonDies() {
         when(person.getHealthStatus()).thenReturn(HealthStatus.INFECTED);
         when(person.getAge()).thenReturn(40);
+
         Virus virus = mock(Virus.class);
         when(virus.getLethality()).thenReturn(20.0);
         when(person.getInfectedBy()).thenReturn(Optional.of(virus));
+
         AgeGroupImpact profile = mock(AgeGroupImpact.class);
         when(profile.getBaseMortalityChancePercent()).thenReturn(5.0);
 
         try (MockedStatic<AgeGroupImpact> mocked = Mockito.mockStatic(AgeGroupImpact.class)) {
             mocked.when(() -> AgeGroupImpact.getProfileForAge(40)).thenReturn(profile);
+
             when(probabilityService.happens(25.0)).thenReturn(true);
 
+            // actual
             deathService.evaluateDeath(person);
 
             verify(person).setHealthStatus(HealthStatus.DEAD);
@@ -87,16 +95,20 @@ class DeathServiceTest {
     void testInfectedPersonSurvives() {
         when(person.getHealthStatus()).thenReturn(HealthStatus.INFECTED);
         when(person.getAge()).thenReturn(40);
+
         Virus virus = mock(Virus.class);
         when(virus.getLethality()).thenReturn(20.0);
         when(person.getInfectedBy()).thenReturn(Optional.of(virus));
+
         AgeGroupImpact profile = mock(AgeGroupImpact.class);
         when(profile.getBaseMortalityChancePercent()).thenReturn(5.0);
 
         try (MockedStatic<AgeGroupImpact> mocked = Mockito.mockStatic(AgeGroupImpact.class)) {
             mocked.when(() -> AgeGroupImpact.getProfileForAge(40)).thenReturn(profile);
+
             when(probabilityService.happens(25.0)).thenReturn(false);
 
+            // actual
             deathService.evaluateDeath(person);
 
             verify(person, never()).setHealthStatus(HealthStatus.DEAD);

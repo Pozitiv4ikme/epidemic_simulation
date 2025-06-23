@@ -57,8 +57,11 @@ class PersonFactoryTest {
     @Test
     void testGeneratePeopleCorrectly() {
         PersonFactory factory = new PersonFactory();
+
+        // actual
         List<Person> people = factory.generatePeople(city, viruses);
 
+        // expected
         for (Person p : people) {
             assertTrue(p.getAge() >= 6 && p.getAge() <= 100);
             Position pos = p.getPosition();

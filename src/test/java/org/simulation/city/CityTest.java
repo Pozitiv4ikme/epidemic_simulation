@@ -22,14 +22,22 @@ public class CityTest {
 
     @Test
     void testSetPeople() {
+        // actual
         city.setPeople(List.of(healthy, infected));
-        Map<HealthStatus, List<Person>> grouped = city.getPeople();
+        Map<HealthStatus, List<Person>> actual = city.getPeople();
 
-        assertEquals(2, grouped.size());
-        assertTrue(grouped.containsKey(HealthStatus.HEALTHY));
-        assertTrue(grouped.containsKey(HealthStatus.INFECTED));
-        assertEquals(1, grouped.get(HealthStatus.HEALTHY).size());
-        assertEquals(1, grouped.get(HealthStatus.INFECTED).size());
+        // expected
+        Map<HealthStatus, List<Person>> expected = Map.of(
+                HealthStatus.HEALTHY, List.of(healthy),
+                HealthStatus.INFECTED, List.of(infected)
+        );
+
+        assertEquals(2, actual.size());
+        assertTrue(actual.containsKey(HealthStatus.HEALTHY));
+        assertTrue(actual.containsKey(HealthStatus.INFECTED));
+        assertEquals(1, actual.get(HealthStatus.HEALTHY).size());
+        assertEquals(1, actual.get(HealthStatus.INFECTED).size());
+        assertEquals(expected, actual);
     }
 
     @Test
@@ -46,8 +54,10 @@ public class CityTest {
         map[1][1].addPerson(healthy);
         assertEquals(1, map[1][1].getPeople().size());
 
+        // actual
         city.deletePersonFromMap(healthy);
+
+        // expected empty list
         assertTrue(map[1][1].getPeople().isEmpty());
     }
-
 }

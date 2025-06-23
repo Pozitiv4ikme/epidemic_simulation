@@ -23,25 +23,24 @@ class DeathHandlerTest {
     }
 
     @Test
-    void testHandleDeathCountsCorrectly() {
+    void testDeathCountsCorrectly() {
         Person p1 = mock(Person.class);
         Person p2 = mock(Person.class);
         Person p3 = mock(Person.class);
 
-        // deathService.evaluateDeath(...) нічого не повертає — він змінює стан person
-
+        // expected
+        int expectedDeaths = 2;
         when(p1.getHealthStatus()).thenReturn(HealthStatus.DEAD);
         when(p2.getHealthStatus()).thenReturn(HealthStatus.HEALTHY);
         when(p3.getHealthStatus()).thenReturn(HealthStatus.DEAD);
 
-        List<Person> people = Arrays.asList(p1, p2, p3);
+        List<Person> people = List.of(p1, p2, p3);
 
-        int result = deathHandler.handleDeath(people);
+        // actual
+        int actualDeaths = deathHandler.handleDeath(people);
 
-        // Має бути 2 смерті
-        assertEquals(2, result);
+        assertEquals(expectedDeaths, actualDeaths);
 
-        // Перевірка, що deathService викликався для кожної особи
         verify(deathService).evaluateDeath(p1);
         verify(deathService).evaluateDeath(p2);
         verify(deathService).evaluateDeath(p3);

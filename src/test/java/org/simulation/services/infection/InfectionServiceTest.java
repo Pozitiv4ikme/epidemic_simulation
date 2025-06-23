@@ -47,15 +47,17 @@ class InfectionServiceTest {
 
             when(probabilityService.happens(35.0)).thenReturn(true);
 
+            // actual
             infectionService.evaluateInfection(person, virus, LocationType.HOUSE);
 
+            // expected change of health status and infected by virus
             verify(person).setHealthStatus(HealthStatus.INFECTED);
             verify(person).setInfectedBy(Optional.of(virus));
         }
     }
 
     @Test
-    void testPersonDoesNotGetInfected() {
+    void testPersonNotGetInfected() {
         when(person.getAge()).thenReturn(25);
         AgeGroupImpact profile = mock(AgeGroupImpact.class);
         when(profile.getBaseInfectionChancePercent()).thenReturn(10.0);
@@ -70,6 +72,7 @@ class InfectionServiceTest {
 
             when(probabilityService.happens(35.0)).thenReturn(false);
 
+            // actual
             infectionService.evaluateInfection(person, virus, LocationType.HOUSE);
 
             verify(person, never()).setHealthStatus(HealthStatus.INFECTED);

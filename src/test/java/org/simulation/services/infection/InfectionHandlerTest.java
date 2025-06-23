@@ -10,6 +10,7 @@ import org.simulation.locations.Location;
 import org.simulation.locations.LocationType;
 import org.simulation.people.HealthStatus;
 import org.simulation.people.Person;
+import org.simulation.people.Position;
 import org.simulation.services.CityMapService;
 import org.simulation.virus.Virus;
 
@@ -40,57 +41,63 @@ class InfectionHandlerTest {
     }
 
     @Test
-    void testHandleInfectionForHealthPeople_NewInfection() {
+    void testHandleInfectionForHealthPerson() {
         when(person.getHealthStatus()).thenReturn(HealthStatus.HEALTHY).thenReturn(HealthStatus.INFECTED);
-        when(person.getPosition()).thenReturn(new org.simulation.people.Position(0, 0));
+        when(person.getPosition()).thenReturn(new Position(0, 0));
         when(city.getCityMap()).thenReturn(new CityCell[][]{{cityCell}});
         when(cityCell.getLocation()).thenReturn(location);
         when(location.getType()).thenReturn(LocationType.HOUSE);
 
         Map<Integer, Virus> virusStages = new HashMap<>();
         virusStages.put(1, virus);
-        when(virus.getMutationStage()).thenReturn(0);
+        when(virus.getMutationStage()).thenReturn(1);
 
         try (MockedStatic<CityMapService> cityMapServiceMock = Mockito.mockStatic(CityMapService.class)) {
             cityMapServiceMock.when(() -> CityMapService.allVirusStagesInCityCell(cityCell))
                     .thenReturn(Optional.of(virusStages));
 
+            // actual
             int result = infectionHandler.handleInfectionForHealthPeople(Collections.singletonList(person), city);
 
-            assertEquals(1, result);
+            // expected
+            int expectedInfectedAmount = 1;
+            assertEquals(expectedInfectedAmount, result);
             verify(infectionService).evaluateInfection(person, virus, LocationType.HOUSE);
         }
     }
 
     @Test
-    void testHandleInfectionForHealthPeople_NoInfection() {
+    void testHandleNoInfectionForHealthPerson() {
         when(person.getHealthStatus()).thenReturn(HealthStatus.HEALTHY);
-        when(person.getPosition()).thenReturn(new org.simulation.people.Position(0, 0));
+        when(person.getPosition()).thenReturn(new Position(0, 0));
         when(city.getCityMap()).thenReturn(new CityCell[][]{{cityCell}});
         when(cityCell.getLocation()).thenReturn(location);
         when(location.getType()).thenReturn(LocationType.HOUSE);
 
         Map<Integer, Virus> virusStages = new HashMap<>();
         virusStages.put(1, virus);
-        when(virus.getMutationStage()).thenReturn(0);
+        when(virus.getMutationStage()).thenReturn(1);
 
-        try (MockedStatic<org.simulation.services.CityMapService> cityMapServiceMock = Mockito.mockStatic(org.simulation.services.CityMapService.class)) {
-            cityMapServiceMock.when(() -> org.simulation.services.CityMapService.allVirusStagesInCityCell(cityCell))
+        try (MockedStatic<CityMapService> cityMapServiceMock = Mockito.mockStatic(CityMapService.class)) {
+            cityMapServiceMock.when(() -> CityMapService.allVirusStagesInCityCell(cityCell))
                     .thenReturn(Optional.of(virusStages));
 
+            // actual
             int result = infectionHandler.handleInfectionForHealthPeople(Collections.singletonList(person), city);
 
-            assertEquals(0, result);
+            // expected
+            int expectedInfectedAmount = 0;
+            assertEquals(expectedInfectedAmount, result);
             verify(infectionService).evaluateInfection(person, virus, LocationType.HOUSE);
         }
     }
 
     @Test
-    void testHandleInfectionForInfectedPeople_MoreAdvancedVirus() {
+    void testHandleInfectionForInfectedPersonWithAdvancedVirus() {
         when(person.getHealthStatus()).thenReturn(HealthStatus.INFECTED);
         when(person.getInfectedBy()).thenReturn(Optional.of(virus));
         when(virus.getMutationStage()).thenReturn(1);
-        when(person.getPosition()).thenReturn(new org.simulation.people.Position(0, 0));
+        when(person.getPosition()).thenReturn(new Position(0, 0));
         when(city.getCityMap()).thenReturn(new CityCell[][]{{cityCell}});
         when(cityCell.getLocation()).thenReturn(location);
         when(location.getType()).thenReturn(LocationType.HOUSE);
@@ -101,39 +108,16 @@ class InfectionHandlerTest {
         Map<Integer, Virus> virusStages = new HashMap<>();
         virusStages.put(2, advancedVirus);
 
-        try (MockedStatic<org.simulation.services.CityMapService> cityMapServiceMock = Mockito.mockStatic(org.simulation.services.CityMapService.class)) {
-            cityMapServiceMock.when(() -> org.simulation.services.CityMapService.allVirusStagesInCityCell(cityCell))
+        try (MockedStatic<CityMapService> cityMapServiceMock = Mockito.mockStatic(CityMapService.class)) {
+            cityMapServiceMock.when(() -> CityMapService.allVirusStagesInCityCell(cityCell))
                     .thenReturn(Optional.of(virusStages));
 
+            // actual
             infectionHandler.handleInfectionForInfectedPeople(Collections.singletonList(person), city);
 
+            // expected use right virus
             verify(infectionService).evaluateInfection(person, advancedVirus, LocationType.HOUSE);
-        }
-    }
-
-    @Test
-    void testHandleInfectionForInfectedPeople_NoAdvancedVirus() {
-        when(person.getHealthStatus()).thenReturn(HealthStatus.INFECTED);
-        when(person.getInfectedBy()).thenReturn(Optional.of(virus));
-        when(virus.getMutationStage()).thenReturn(2);
-        when(person.getPosition()).thenReturn(new org.simulation.people.Position(0, 0));
-        when(city.getCityMap()).thenReturn(new CityCell[][]{{cityCell}});
-        when(cityCell.getLocation()).thenReturn(location);
-        when(location.getType()).thenReturn(LocationType.HOUSE);
-
-        Virus sameStageVirus = mock(Virus.class);
-        when(sameStageVirus.getMutationStage()).thenReturn(2);
-
-        Map<Integer, Virus> virusStages = new HashMap<>();
-        virusStages.put(2, sameStageVirus);
-
-        try (MockedStatic<org.simulation.services.CityMapService> cityMapServiceMock = Mockito.mockStatic(org.simulation.services.CityMapService.class)) {
-            cityMapServiceMock.when(() -> org.simulation.services.CityMapService.allVirusStagesInCityCell(cityCell))
-                    .thenReturn(Optional.of(virusStages));
-
-            infectionHandler.handleInfectionForInfectedPeople(Collections.singletonList(person), city);
-
-            verify(infectionService, never()).evaluateInfection(any(), any(), any());
+            verify(infectionService, never()).evaluateInfection(person, virus, LocationType.HOUSE);
         }
     }
 }
