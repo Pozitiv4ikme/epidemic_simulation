@@ -2,8 +2,8 @@ package org.simulation.locations;
 
 import org.simulation.MakeId;
 
+import java.util.Objects;
 import java.util.Optional;
-import java.util.Random;
 import java.util.UUID;
 
 /**
@@ -87,6 +87,22 @@ public class Location implements MakeId {
 
     public int getBuildingArea() {
         return buildingArea;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Location location = (Location) o;
+        return buildingArea == location.buildingArea &&
+                Objects.equals(id, location.id) &&
+                Objects.equals(name, location.name) &&
+                type == location.type;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, type, buildingArea);
     }
 
     @Override
