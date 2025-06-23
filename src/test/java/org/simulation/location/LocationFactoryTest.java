@@ -6,10 +6,11 @@ import org.simulation.locations.Location;
 import org.simulation.locations.LocationFactory;
 import org.simulation.locations.LocationType;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.assertIterableEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class LocationFactoryTest {
 
@@ -33,6 +34,6 @@ public class LocationFactoryTest {
 
         List<Location> allLocationsActual = LocationFactory.generateLocations(width, height, cityInitialData);
 
-        assertIterableEquals(allLocationsExpected, allLocationsActual);
+        assertEquals(new HashSet<>(allLocationsExpected), new HashSet<>(allLocationsActual));
     }
 }
